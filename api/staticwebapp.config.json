@@ -1,0 +1,18 @@
+{
+    "trailingSlash": "auto",
+    "routes": [
+      {
+        "route": "/api/*",
+        "methods": ["GET"]
+      },
+      {
+        "route": "/api/*",
+        "methods": ["PUT", "POST", "PATCH", "DELETE"],
+        "allowedRoles": ["administrator"]
+      }
+    ],
+    "navigationFallback": {
+        "rewrite": "index.html",
+        "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
+      }
+    }
