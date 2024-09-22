@@ -61,9 +61,9 @@ hr {
 }
 
 p,
-li {
+/*li {
   font-family: "Cormorant Garamond";
-}
+} */
 
 .stuff {
   display: inline-block;

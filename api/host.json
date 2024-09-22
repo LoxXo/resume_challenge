@@ -11,7 +11,8 @@
   "extensions": {
     "cosmosDB": {
         "connectionMode": "Gateway",
-        "userAgentSuffix": "MyCoolApi"
+        "userAgentSuffix": "MyCoolResumeApi",
+        "protocol": "Https"
       }
     },
   "extensionBundle": {
