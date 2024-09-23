@@ -47,7 +47,7 @@ div {
   position: inherit;
 }
 
-h1 {
+#name {
   text-align: center;
   font-family: "Libre Baskerville", serif;
   font-optical-sizing: auto;
@@ -55,7 +55,7 @@ h1 {
   font-style: normal;
   margin-bottom: 4px;
 }
-h2 {
+#contact_data {
   text-align: center;
   font-family: "Libre Baskerville", serif;
   font-optical-sizing: auto;
@@ -137,7 +137,12 @@ li {
   margin-top: 10px;
   margin-bottom: 6px;
 }
-#name {
+#visitors{
+  float: left;
+  margin-top: 10px;
+  margin-left: 4%;
+}
+#emote {
   font-family: Sacramento;
   float: right;
   margin-top: 10px;

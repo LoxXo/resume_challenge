@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <title>JW Resume</title>
     <link rel="icon" href="images/favicon.png" type="image/png">
     <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -16,18 +16,18 @@
 <div class="left"></div>
 <div class="stuff">
   <br><br>
-  <h1>Jakub Wajda</h1>
-  <h2>✉ kubawa19@gmail.com <img src="images/github_logo.png" alt="GitHub logo" width="15" height="15" />
+  <h1 id="name" data-cy="name">Jakub Wajda</h1>
+  <h2 id="contact_data">✉ kubawa19@gmail.com <img src="images/github_logo.png" alt="GitHub logo" width="15" height="15" data-cy="github_logo"/>
     <a href="https://github.com/LoxXo">github.com/LoxXo<a />
-  </h2>
+    </h2>
   <hr class="first_hr">
   <p class="head">SKILLS</p>
   <hr />
   <p class="skills">Language: Polish, English</p>
   <p class="skills">Splunk Enterprise, Azure Sentinel, xxx</p>
   <hr />
-  <p class="head">WORK EXPERIENCE</p>
-  <p class="record">Fujitsu<span class="date">02.2023 - current</span></p>
+  <p class="head" data-cy="head_work">WORK EXPERIENCE</p>
+  <p class="record" data-cy="first_record">Fujitsu<span class="date">02.2023 - current</span></p>
   <p class="job_title">SIEM Engineer</p>
   <ul>
     <li>Maintaining, expanding or downsizing SIEM services</li>
@@ -60,7 +60,7 @@
 </div>
 <div class="right"></div>
 <div id="footer">
-  <p id="visitors"></p>
-  <h2 id="name">^.^</h2>
+  <p id="visitors" data-cy="visitors-js"></p>
+  <h2 id="emote">^.^</h2>
 </div>
 </html>
