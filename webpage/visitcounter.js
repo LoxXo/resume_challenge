@@ -1,11 +1,7 @@
-window.onload = function(){
+var data
+window.onload = function showVisitors(){
     fetch('https://http-trigger-cosmos-resume.azurewebsites.net/api/new_visitor?')
-    .then(data => {
-    return data;
-    })
-    .then(post => {
-    console.log(post);
-    });
-    data = 'bardzo fajne zdanie'
-    document.getElementById("visitors") = data;
+    .then(response => console.log(response.status) || response)
+    .then(response => (data = response.text()))
+    document.getElementById("visitors").innerHTML = data;
 }
