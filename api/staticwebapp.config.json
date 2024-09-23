@@ -1,8 +1,5 @@
 {
     "trailingSlash": "auto",
-    "platform": {
-    "apiRuntime": "python:3.10"
-    },
     "routes": [
       {
         "route": "/api/*",
@@ -17,5 +14,8 @@
     "navigationFallback": {
         "rewrite": "index.html",
         "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
-      }
+      },
+      "platform": {
+        "apiRuntime": "python:3.10"
+    }
     }
