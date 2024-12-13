@@ -17,6 +17,6 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        template: ./resume_challenge.bicep
+        template: ./bicep/resume_challenge.bicep
         parameters: 'resourceGroupName=resume-test-00 resourceGroupLocation=eastus'
         failOnStdErr: false
