@@ -1,11 +1,22 @@
 name: Cypress Tests for API
 
-on: push
+on:
+  workflow_run:
+    workflows: [azure-static-web-apps-deploy]
+    types:
+      - completed
+
 
 jobs:
+
   install: 
     runs-on: ubuntu-22.04
     steps:
+      - name: Sleep for 10 minutes           
+        uses: jakejarvis/wait-action@v0.1.1
+        with:
+          time: '10m'
+          
       - name: Checkout
         uses: actions/checkout@v4
 
