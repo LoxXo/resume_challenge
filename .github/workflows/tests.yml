@@ -2,7 +2,7 @@ name: Cypress Tests for API
 
 on:
   workflow_run:
-    workflows: [azure-static-web-apps-deploy]
+    workflows: [Azure Static Web Apps CI/CD]
     types:
       - completed
 
