@@ -24,7 +24,9 @@ module cdbacc 'cosmosDB_account.bicep' = {
   name: 'cosmosDBAccount'
 }
 
+/*
 module fapp 'functionApp.bicep' = {
   scope: newRG
   name: 'functionApp'
 }
+*/
