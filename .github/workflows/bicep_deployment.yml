@@ -14,9 +14,11 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy Bicep file
-      uses: azure/arm-deploy@v1
+      uses: azure/cli@v1
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        template: ./bicep/resume_challenge.bicep
-        parameters: 'resourceGroupName=resume-test-00 resourceGroupLocation=eastus'
-        failOnStdErr: false
+        inlineScript: |
+          az deployment sub create \
+            --name deploy-${{ github.run_id }} \
+            --template-file bicep/resume_challenge.bicep \
+            -p resourceGroupName=resume-man-00 resourceGroupLocation=eastus \
+            -l eastus
