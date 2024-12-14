@@ -2,7 +2,7 @@ name: Azure Static Web Apps CI/CD
 
 on:
   workflow_run:
-    workflows: [bicep_deployment]
+    workflows: [Deploy Bicep file]
     types:
       - completed
 
