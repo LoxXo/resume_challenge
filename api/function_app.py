@@ -47,18 +47,18 @@ def add_name(
         )
 
 
-@app.function_name(name="NewVisitor")
+@app.function_name(name="new_visitor")
 @app.route(route="new_visitor", auth_level=func.AuthLevel.ANONYMOUS)
 @app.cosmos_db_input(
     arg_name="inputDocument",
     database_name=os.environ["COSMOS_DATABASE"],
-    container_name=os.environ["COSMOS_CONTAINER_COUNTER"],
+    container_name=os.environ["COSMOS_CONTAINER"],
     connection="CosmosDbConnectionSetting",
 )
 @app.cosmos_db_output(
     arg_name="outputDocument",
     database_name=os.environ["COSMOS_DATABASE"],
-    container_name=os.environ["COSMOS_CONTAINER_COUNTER"],
+    container_name=os.environ["COSMOS_CONTAINER"],
     connection="CosmosDbConnectionSetting",
     create_if_not_exists=True,
     partition_key="id",
@@ -88,12 +88,12 @@ def new_visitor(
     return f"All time visitor number: {new_number}"
 
 
-@app.function_name(name="GetVisitors")
+@app.function_name(name="get_visitors")
 @app.route(route="get_visitors", auth_level=func.AuthLevel.ANONYMOUS)
 @app.cosmos_db_input(
     arg_name="inputDocument",
     database_name=os.environ["COSMOS_DATABASE"],
-    container_name=os.environ["COSMOS_CONTAINER_COUNTER"],
+    container_name=os.environ["COSMOS_CONTAINER"],
     connection="CosmosDbConnectionSetting",
 )
 def get_visitors(

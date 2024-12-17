@@ -2,6 +2,7 @@ targetScope='subscription'
 
 param resourceGroupName string
 param resourceGroupLocation string
+
 /*param staticWebAppName string = 
 param staticWebAppLocation string
 param cdbAccountLocation string

@@ -8,8 +8,8 @@ on:
 
 
 jobs:
-
-  install: 
+  install:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Sleep for 10 minutes           
@@ -36,6 +36,7 @@ jobs:
           path: build
           
   cypress-run:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Sleep for 10 minutes           
