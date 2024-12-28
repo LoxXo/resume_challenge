@@ -1,25 +1,41 @@
 {
-    "trailingSlash": "auto",
-    "globalHeaders": {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, GET, OPTIONS"
-    },
-    "routes": [
-      {
-        "route": "/api/*",
-        "methods": ["GET"]
-      },
-      {
-        "route": "/api/*",
-        "methods": ["PUT", "POST", "PATCH", "DELETE"],
-        "allowedRoles": ["administrator"]
+  "trailingSlash": "auto",
+  "globalHeaders": {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, GET, OPTIONS"
+  },
+  "routes": [
+    {
+      "route": "/api/*",
+      "methods": [
+        "get"
+      ],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST"
       }
-    ],
-    "navigationFallback": {
-        "rewrite": "index.html",
-        "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
     },
-    "platform": {
-      "apiRuntime": "python:3.10"
+    {
+      "route": "/api/*",
+      "methods": [
+        "PUT",
+        "POST",
+        "PATCH",
+        "DELETE"
+      ],
+      "allowedRoles": [
+        "administrator"
+      ]
     }
+  ],
+  "navigationFallback": {
+    "rewrite": "index.html",
+    "exclude": [
+      "/images/*.{png,jpg,gif}",
+      "/css/*"
+    ]
+  },
+  "platform": {
+    "apiRuntime": "python:3.10"
+  }
 }
