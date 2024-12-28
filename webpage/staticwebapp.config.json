@@ -1,5 +1,9 @@
 {
     "trailingSlash": "auto",
+    "globalHeaders": {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, GET, OPTIONS"
+    },
     "routes": [
       {
         "route": "/api/*",
@@ -14,12 +18,8 @@
     "navigationFallback": {
         "rewrite": "index.html",
         "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
-      },
-      "platform": {
-        "apiRuntime": "python:3.10"
     },
-    "globalHeaders": {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, GET, OPTIONS"
+    "platform": {
+      "apiRuntime": "python:3.10"
     }
-  }
+}
