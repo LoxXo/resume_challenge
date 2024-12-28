@@ -2,6 +2,9 @@ targetScope='subscription'
 
 param resourceGroupName string
 param resourceGroupLocation string
+param cdbDatabaseName string
+param cdbContainerName string
+
 /*param staticWebAppName string = 
 param staticWebAppLocation string
 param cdbAccountLocation string
@@ -22,6 +25,11 @@ module swa 'staticWebApp.bicep' = {
 module cdbacc 'cosmosDB_account.bicep' = {
   scope: newRG
   name: 'cosmosDBAccount'
+  params:{
+    cdbDatabaseName: cdbDatabaseName
+    cdbContainerName: cdbContainerName
+  }
+
 }
 
 /*
