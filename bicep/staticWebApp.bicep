@@ -1,7 +1,14 @@
 targetScope = 'resourceGroup'
 
 param staticWebAppName string = 'web-${uniqueString(resourceGroup().id)}'
-param staticWebAppLocation string = '${resourceGroup().location}'
+@allowed(
+  ['westus2'
+  'centralus'
+  'eastus2'
+  'westeurope'
+  'eastasia']
+)
+param staticWebAppLocation string = 'westeurope'
 
 module swa 'br/public:avm/res/web/static-site:0.6.1' = {
   name: 'staticWeb'

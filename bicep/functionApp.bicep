@@ -1,7 +1,7 @@
   targetScope = 'resourceGroup'
 
 param functionName string = 'func-${uniqueString(resourceGroup().id)}'
-param functionLocation string = '${resourceGroup().location}'
+param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param staticWebAppHostname string
 
