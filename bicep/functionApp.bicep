@@ -1,11 +1,11 @@
   targetScope = 'resourceGroup'
 
-param functionName string = 'func-${uniqueString(resourceGroup().id)}'
+param functionName string = 'func-http-trigger-resume'
 param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param staticWebAppHostname string
 
-var storageAccountName = '${uniqueString(resourceGroup().id)}azfunctions'
+var storageAccountName = 'strg-resume${uniqueString(resourceGroup().id)}'
 var functionAppName = functionName
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {

@@ -1,6 +1,6 @@
 targetScope = 'resourceGroup'
 
-param cdbAccountName string = 'cosmos-${uniqueString(resourceGroup().id)}'
+param cdbAccountName string = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
 param cdbAccountLocation string = resourceGroup().location
 
 resource cdbacc 'Microsoft.DocumentDB/databaseAccounts@2024-09-01-preview' = {
