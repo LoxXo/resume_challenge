@@ -2,9 +2,7 @@ targetScope='subscription'
 
 param resourceGroupName string
 param resourceGroupLocation string
-
-/*param staticWebAppName string = 
-param staticWebAppLocation string
+/*param staticWebAppLocation string
 param cdbAccountLocation string
 param cdbAccountName string
 param functionName string
@@ -14,6 +12,7 @@ resource newRG 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   name: resourceGroupName
   location: resourceGroupLocation
 }
+
 
 module swa 'staticWebApp.bicep' = {
   scope: newRG
@@ -25,9 +24,11 @@ module cdbacc 'cosmosDB_account.bicep' = {
   name: 'cosmosDBAccount'
 }
 
-/*
 module fapp 'functionApp.bicep' = {
   scope: newRG
   name: 'functionApp'
+  params: {
+    staticWebAppHostname: swa.outputs.endpoint
+  }
 }
-*/
+

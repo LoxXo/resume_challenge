@@ -1,46 +1,52 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src https://fonts.gstatic.com/s/mulish/; connect-src https://http-trigger-cosmos-resume.azurewebsites.net/api/">
     <title>JW Resume</title>
     <link rel="icon" href="images/favicon.png" type="image/png">
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Yrsa:wght@300..700&display=swap" rel="stylesheet">
     <script src="visitcounter.js" async></script>
-    <script https://http-trigger-cosmos-resume.azurewebsites.net/api/></script>
-  </head>
   </head>
 <div id="header"></div>
 <div class="left"></div>
+<div class="right"></div>
+<div class="preface">
+  <br><br>
+  <h1>Welcome</h1>
+  <hr class="first_hr">
+  <p>This page was made as part of The Cloud Resume Challenge Azure Edition. Frontend is humble, but I never strived to be a frontend guy. Backend is hosted on the the Azure expect for DNS and built as Infrastructure as Code in a Azure Bicep to enable automatic deployment via the Github Actions. </p>
+</div>
 <div class="stuff">
   <br><br>
-  <h1 id="name" data-cy="name">Jakub Wajda</h1>
-  <h2 id="contact_data">✉ kubawa19@gmail.com <img src="images/github_logo.png" alt="GitHub logo" width="15" height="15" data-cy="github_logo"/>
+  <h1>Jakub Wajda</h1>
+  <h2>✉ kubawa19@gmail.com <img src="images/github_logo.png" alt="GitHub logo" width="15" height="15" />
     <a href="https://github.com/LoxXo">github.com/LoxXo<a />
-    </h2>
+  </h2>
   <hr class="first_hr">
   <p class="head">SKILLS</p>
   <hr />
   <p class="skills">Language: Polish, English</p>
-  <p class="skills">Splunk Enterprise, Azure Sentinel, xxx</p>
+  <p class="skills">Work: Splunk, Linux, Networking, Ansible, Azure Sentinel, Regex, Python, Bash, Creating documentation</p>
+  <p class="skills">Projects: Azure (Function App, Static Web Apps, Cosmos DB, ARM), Bicep, Docker, Grafana, SQL (PostgreSQL), GitHub Actions</p>
+  <p class="skills">Soft: Ability to receive and give feedback, Describing technical topics to non-technical personnel, Curiosity to dig deeper, Ease in collaborating with others, Open-mindedness</p>
   <hr />
-  <p class="head" data-cy="head_work">WORK EXPERIENCE</p>
-  <p class="record" data-cy="first_record">Fujitsu<span class="date">02.2023 - current</span></p>
+  <p class=" head">WORK EXPERIENCE</p>
+  <p class="record">Fujitsu<span class="date">02.2023 - current</span></p>
   <p class="job_title">SIEM Engineer</p>
   <ul>
-    <li>Maintaining, expanding or downsizing SIEM services</li>
-    <li>Maintaining Linux hosts for mentioned systems</li>
-    <li>Designing new and tuning of current security alerts</li>
-    <li>Working closely with ISMs, CSIRT/SOC and clients</li>
-    <li>Implemented rules alerting about important performance drops</li>
+    <li>Implemented alerts for important system and service performance drops or outages.</li>
+    <li>Reduced usage of the SIEM services license without losing security coverage.</li>
+    <li>Located and fixed bugs in internal Python-written integration scripts.</li>
+    <li>Maintaining the SIEM services and Linux hosts for the mentioned systems.</li>
+    <li>Designing new and tuning existing security alerts.</li>
+    <li>Working closely with ISMs, CSIRT/SOC, and clients.</li>
   </ul>
   <p class="job_title">IAM Engineer</p>
   <ul>
-    <li>Discovered a problem with process of account creation, that could led to doubling the work time needed</li>
+    <li>Discovered a problem with process of account creation, that could led to doubling the needed work.</li>
+    <li>Requesting for user's accesses and monitoring JML tasks for any breaches or errors.</li>
   </ul>
   <p class="record">Hutchinson<span class="date">04.2022 - 06.2022</span></p>
   <p class="job_title">IT Support</p>
@@ -49,20 +55,18 @@
     <li>Assisting in SAP migration: configuration of computers, Zebra scanners and printers. Distributing new hardware to departments.</li>
   </ul>
   <hr />
-  <p class="head">CERTIFICATIONS</p>
-  <p id="cert">Splunk Core Certified Power User<span class="date">08.2024</span></p>
-  <p id="cert">Certified: Security, Compliance, and Identity Fundamentals<br>(SC-900)<span class="date">06.2024</span></p>
-  <hr />
   <p class="head">EDUCATION</p>
   <p class="record">Wyższa Szkoła Informatyki i
-  Zarządzania w Bielsku-Białej<span class="date">2021 - 2022</span></p>
+    Zarządzania w Bielsku-Białej<span class="date">2021 - 2022</span></p>
   <p class="job_title">Postgraduate Degree, Computer Science</p>
   <hr />
-  <p class="head">PROJECTS</p>
+  <p class="head">CERTIFICATIONS</p>
+  <p id="cert">Splunk Core Certified Power User<span class="date">08.2024</span></p>
+  <p id="cert">Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC-900)<span class="date">06.2024</span></p>
+  <p class="head"></p>
 </div>
-<div class="right"></div>
 <div id="footer">
-  <p id="visitors" data-cy="visitors-js"></p>
-  <h2 id="emote">^.^</h2>
+  <p id="visitors"></p>
+  <h2 id="name">^.^</h2>
 </div>
 </html>
