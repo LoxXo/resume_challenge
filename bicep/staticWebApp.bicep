@@ -11,10 +11,4 @@ module swa 'br/public:avm/res/web/static-site:0.6.1' = {
     sku: 'Free'
   }
 }
-
-resource swa1 'Microsoft.Web/staticSites@2024-04-01' = {  
-  name: staticWebAppName
-  location: staticWebAppLocation
-  sku: {capabilities: {Capability[name: 'Free']}}
-  }
-}
+output endpoint string = swa.outputs.defaultHostname

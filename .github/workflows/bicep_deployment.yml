@@ -23,5 +23,5 @@ jobs:
           az deployment sub create \
             --name deploy-${{ github.run_id }} \
             --template-file bicep/resume_challenge.bicep \
-            -p resourceGroupName=resume-man-00 resourceGroupLocation=eastus \
-            -l eastus
+            -p resourceGroupName=resume-man-00 resourceGroupLocation=northeurope \
+            -l northeurope
