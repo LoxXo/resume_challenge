@@ -25,11 +25,12 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: functionName
   location: functionLocation
   sku: {
-    name: 'Y1'
-    tier: 'Dynamic'
+    name: 'F1'
   }
   kind: 'functionapp,linux'
-  properties: {}
+  properties: {
+    reserved: true
+  }
 }
 
 resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
@@ -79,6 +80,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       ]
       ftpsState: 'FtpsOnly'
       minTlsVersion: '1.2'
+      linuxFxVersion: 'Python|3.11'
     }
     httpsOnly: true
   }
