@@ -5,7 +5,7 @@ param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param staticWebAppHostname string
 
-var storageAccountName = 'strg-resume${uniqueString(resourceGroup().id)}'
+var storageAccountName = 'strgresume${uniqueString(resourceGroup().id)}'
 var functionAppName = functionName
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
