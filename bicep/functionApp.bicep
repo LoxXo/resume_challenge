@@ -25,8 +25,8 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: functionName
   location: functionLocation
   sku: {
-    name: 'F1'
-    tier: 'Free'
+    name: 'Y1'
+    tier: 'Dynamic'
   }
   kind: 'functionapp,linux'
   properties: {}
