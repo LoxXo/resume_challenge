@@ -25,7 +25,7 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: functionName
   location: functionLocation
   sku: {
-    name: 'F1'
+    name: 'Y1'
   }
   kind: 'functionapp,linux'
   properties: {
