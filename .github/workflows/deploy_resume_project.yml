@@ -20,18 +20,18 @@ jobs:
         steps:
           - run: echo ${{ github.job }}
           - name: run yaml
-            uses: ./.github/workflows/api_deployment.yml
+            uses: LoxXo/resume_challenge/.github/workflows/api_deployment.yml@main
             
 
     deploy-swa-webpage:
         needs: deploy-az-resources
         if: always() && !contains(needs.*.result, 'failure')
-        uses: ./.github/workflows/azure-static-web-apps-deploy.yml
+        uses: LoxXo/resume_challenge/.github/workflows/azure-static-web-apps-deploy.yml@main
         secrets: inherit
     
     cypress-test:
         needs: [deploy-api, deploy-swa-webpage]
-        if: always() && !contains(needs.*.result, 'failure')
+        if: always()
         uses: ./.github/workflows/test_cypress.yml
 
     always-and-no-failures:
