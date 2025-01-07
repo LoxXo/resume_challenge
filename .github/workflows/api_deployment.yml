@@ -50,16 +50,16 @@ jobs:
         enable-oryx-build: true
 
     # not a perfect solution to always chose latest rg, but this is single deployment with hardcoded rg name
-    - name: 'Get the last resource group name' 
-      id: rg
-      run: |
-        rgname=$(az group list -o yaml | grep -o '\sresume.*' | tail -1)
+    # - name: 'Get the last resource group name' 
+    #   id: rg
+    #   run: |
+    #     rgname=$(az group list -o yaml | grep -o '\sresume.*' | tail -1)
 
-        echo "::set-output name=rgname::$rgname"
+    #     echo "::set-output name=rgname::$rgname"
 
-    - name: 'Deploy website content to Static Web Apps'
-      run: |
-        az staticwebapp deploy \
-        --source "${{ env.AZURE_STATIC_WEB_APP_PACKAGE_PATH }}" \
-        --name "${{ env.AZURE_STATIC_WEB_APP_NAME }}" \
-        --resource-group "${{ steps.rg.outputs.rgname }}"
+    # - name: 'Deploy website content to Static Web Apps'
+    #   run: |
+    #     az staticwebapp deploy \
+    #     --source "${{ env.AZURE_STATIC_WEB_APP_PACKAGE_PATH }}" \
+    #     --name "${{ env.AZURE_STATIC_WEB_APP_NAME }}" \
+    #     --resource-group "${{ steps.rg.outputs.rgname }}"
