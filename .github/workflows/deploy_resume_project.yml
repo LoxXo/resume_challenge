@@ -3,7 +3,11 @@ on:
   push:
     branches:
       - main
-
+  workflow_dispatch:
+    inputs:
+        YOLO:
+            default: true
+            type: boolean
 jobs:
     deploy-az-resources:
         uses: ./.github/workflows/bicep_deployment.yml
@@ -11,7 +15,7 @@ jobs:
 
     deploy-api:
         needs: deploy-az-resources
-        if: always() && (needs.deploy-az-resources.result == success)
+        if: always() && needs.deploy-az-resources.result == 'success'
         uses: ./.github/workflows/api_deployment.yml
         secrets: inherit
 
