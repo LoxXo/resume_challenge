@@ -17,7 +17,7 @@ jobs:
 
     deploy-swa-webpage:
         needs: deploy-az-resources
-        if: !failure() && !cancelled()
+        if: ${{ !failure() && !cancelled() }}
         uses: ./.github/workflows/azure-static-web-apps-deploy.yml
         secrets: inherit
     
