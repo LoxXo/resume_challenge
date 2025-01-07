@@ -1,4 +1,4 @@
-name: Azure Functions for Static Web CI/CD
+name: Azure Functions API CI/CD
 
 on:
   workflow_run:

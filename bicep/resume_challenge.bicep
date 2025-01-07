@@ -12,7 +12,7 @@ resource newRG 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   name: resourceGroupName
   location: resourceGroupLocation
 }
-
+// set the last created RG to be a default one
 
 module swa 'staticWebApp.bicep' = {
   scope: newRG
