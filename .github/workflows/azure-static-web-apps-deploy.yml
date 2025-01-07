@@ -8,7 +8,7 @@ on:
       - completed
 env:
   STATIC_WEB_APP_NAME: 'web-resume-00'   # set this to the name of your static web app on Azure
-
+  RESOURCE_GROUP_NAME: 'rg-resume-00'   # set this to the name of your resource group on Azure
 jobs:
   build_and_deploy_job:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -29,7 +29,7 @@ jobs:
       - name: Get Static Web Apps API Token as secret output
         id: swa_token
         run: |
-          apikey=$(az staticwebapp secrets list --name '${{ env.STATIC_WEB_APP_NAME }}' --query "properties.apiKey")
+          apikey=$(az staticwebapp secrets list --name '${{ env.STATIC_WEB_APP_NAME }}' -g '${{env.RESOURCE_GROUP_NAME}}' --query "properties.apiKey")
           echo "::add-mask::$apikey"
           echo "web_apikey=$apikey" >> "$GITHUB_OUTPUT"
 
