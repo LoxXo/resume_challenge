@@ -10,15 +10,18 @@ jobs:
         secrets: inherit
 
     deploy-api:
+        if: success('deploy-az-resources')
         needs: [deploy-az-resources]
         uses: ./.github/workflows/api_deployment.yml
         secrets: inherit
 
     deploy-swa-webpage:
+        if: success('deploy-az-resources')
         needs: [deploy-az-resources]
         uses: ./.github/workflows/azure-static-web-apps-deploy.yml
         secrets: inherit
     
     cypress-test:
+        if: success('deploy-api') && success('deploy-swa-webpage')
         needs: [deploy-api,deploy-swa-webpage]
         uses: ./.github/workflows/test_cypress.yml
