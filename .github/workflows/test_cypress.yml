@@ -1,11 +1,12 @@
-name: Cypress Tests for API
+name: Cypress E2E Tests for API and Webpage
 
 on:
-    workflow_dispatch
-#   workflow_run:
-    # workflows: [Azure Static Web Apps CI/CD]
-    # types:
-    #   - completed
+  workflow_call:
+#    workflow_dispatch
+  # workflow_run:
+  #   workflows: [Azure Static Web Apps Webpage CI/CD]
+  #   types:
+  #     - completed
 
 
 jobs:
@@ -57,5 +58,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          spec: 'cypress/e2e/resume_page_live.cy.js'
           start: npm start
           browser: chrome

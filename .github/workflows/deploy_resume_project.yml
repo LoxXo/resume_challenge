@@ -1,0 +1,21 @@
+name: Deploy Resume Challenge to Azure
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+    deploy-from-bicep:
+        uses: ./.github/workflows/bicep_deployment.yml
+
+    deploy-api:
+        needs: [deploy-from-bicep]
+        uses: ./.github/workflows/api_deployment.yml
+
+    deploy-swa-webpage:
+        needs: [deploy-from-bicep]
+        uses: ./.github/workflows/azure-static-web-apps-deploy.yml
+    
+    cypress-test:
+        needs: [deploy-api,deploy-swa-webpage]
+        uses: ./.github/workflows/test_cypress.yml
