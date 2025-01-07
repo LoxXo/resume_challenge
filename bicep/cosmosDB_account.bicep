@@ -41,9 +41,6 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
   parent: database
   name: containerName
   properties: {
-    options: {
-      throughput: 500
-    }
     resource: {
       id: containerName
       partitionKey: {
