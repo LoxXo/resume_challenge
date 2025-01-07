@@ -14,17 +14,14 @@ jobs:
         secrets: inherit
 
     deploy-api:
-        needs: deploy-az-resources
-        if: always() && !contains(needs.*.result, 'failure')
-        runs-on: ubuntu-latest
-        steps:
-          - run: echo ${{ github.job }}
-          - name: run yaml
-            uses: LoxXo/resume_challenge/.github/workflows/api_deployment.yml@main
+        needs: [deploy-az-resources]
+        if: always()
+        uses: LoxXo/resume_challenge/.github/workflows/api_deployment.yml@main
+        secrets: inherit
             
 
     deploy-swa-webpage:
-        needs: deploy-az-resources
+        needs: [deploy-az-resources]
         if: always() && !contains(needs.*.result, 'failure')
         uses: LoxXo/resume_challenge/.github/workflows/azure-static-web-apps-deploy.yml@main
         secrets: inherit
