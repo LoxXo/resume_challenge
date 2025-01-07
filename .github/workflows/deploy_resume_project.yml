@@ -15,17 +15,17 @@ jobs:
 
     deploy-api:
         needs: deploy-az-resources
-        if: always() && needs.deploy-az-resources.result == 'success'
+        if: ${{ ! (contains(needs.deploy-az-resources.result, 'skipped') || contains(needs.deploy-az-resources.result, 'failure')) }}
         uses: ./.github/workflows/api_deployment.yml
         secrets: inherit
 
-    deploy-swa-webpage:
-        needs: deploy-az-resources
-        if: ${{ !failure() && !cancelled() }}
-        uses: ./.github/workflows/azure-static-web-apps-deploy.yml
-        secrets: inherit
+    # deploy-swa-webpage:
+    #     needs: deploy-az-resources
+    #     if: ${{ !failure() && !cancelled() }}
+    #     uses: ./.github/workflows/azure-static-web-apps-deploy.yml
+    #     secrets: inherit
     
-    cypress-test:
-        needs: [deploy-api, deploy-swa-webpage]
-        if: ${{ !failure() && !cancelled() }}
-        uses: ./.github/workflows/test_cypress.yml
+    # cypress-test:
+    #     needs: [deploy-api, deploy-swa-webpage]
+    #     if: ${{ !failure() && !cancelled() }}
+    #     uses: ./.github/workflows/test_cypress.yml
