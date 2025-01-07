@@ -15,13 +15,13 @@ jobs:
 
     deploy-api:
         needs: deploy-az-resources
-        if: always()
+        if: always() && !contains(needs.*.result, 'failure')
         uses: ./.github/workflows/api_deployment.yml
         secrets: inherit
 
     deploy-swa-webpage:
         needs: deploy-az-resources
-        if: always() && !contains(needs.deploy-az-resources.result, 'failure')
+        if: always() && !contains(needs.*.result, 'failure')
         uses: ./.github/workflows/azure-static-web-apps-deploy.yml
         secrets: inherit
     
@@ -31,8 +31,8 @@ jobs:
         uses: ./.github/workflows/test_cypress.yml
 
     always-and-no-failures:
-      needs: [deploy-az-resources]
-      if: always() && !contains(needs.*.result, 'failure')
-      runs-on: ubuntu-latest
-      steps:
-        - run: echo ${{ github.job }}
+        needs: [deploy-az-resources]
+        if: always() && !contains(needs.*.result, 'failure')
+        runs-on: ubuntu-latest
+        steps:
+          - run: echo ${{ github.job }}
