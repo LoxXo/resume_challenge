@@ -16,8 +16,12 @@ jobs:
     deploy-api:
         needs: deploy-az-resources
         if: always() && !contains(needs.*.result, 'failure')
-        uses: ./.github/workflows/api_deployment.yml
-        secrets: inherit
+        runs-on: ubuntu-latest
+        steps:
+          - run: echo ${{ github.job }}
+          - name: run yaml
+            uses: ./.github/workflows/api_deployment.yml
+            
 
     deploy-swa-webpage:
         needs: deploy-az-resources
