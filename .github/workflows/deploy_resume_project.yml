@@ -11,6 +11,7 @@ jobs:
 
     deploy-api:
         needs: deploy-az-resources
+        if: always() && (needs.deploy-az-resources.result == 'success')
         uses: ./.github/workflows/api_deployment.yml
         secrets: inherit
 
@@ -21,4 +22,5 @@ jobs:
     
     cypress-test:
         needs: [deploy-api, deploy-swa-webpage]
+        if: ${{ !failure() && !cancelled() }}
         uses: ./.github/workflows/test_cypress.yml
