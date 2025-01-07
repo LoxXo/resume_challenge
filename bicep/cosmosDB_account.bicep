@@ -42,9 +42,6 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
   name: containerName
   properties: {
     options: {
-      autoscaleSettings: {
-        maxThroughput: 500
-      }
       throughput: 500
     }
     resource: {
