@@ -11,12 +11,13 @@ jobs:
 
     deploy-api:
         needs: deploy-az-resources
-        if: always() && (needs.deploy-az-resources.result == 'success')
+        if: always() && (needs.deploy-az-resources.result == success)
         uses: ./.github/workflows/api_deployment.yml
         secrets: inherit
 
     deploy-swa-webpage:
         needs: deploy-az-resources
+        if: !failure() && !cancelled()
         uses: ./.github/workflows/azure-static-web-apps-deploy.yml
         secrets: inherit
     
