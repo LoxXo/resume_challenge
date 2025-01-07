@@ -5,16 +5,19 @@ on:
       - main
 
 jobs:
-    deploy-from-bicep:
+    deploy-az-resources:
         uses: ./.github/workflows/bicep_deployment.yml
+        secrets: inherit
 
     deploy-api:
-        needs: [deploy-from-bicep]
+        needs: [deploy-az-resources]
         uses: ./.github/workflows/api_deployment.yml
+        secrets: inherit
 
     deploy-swa-webpage:
-        needs: [deploy-from-bicep]
+        needs: [deploy-az-resources]
         uses: ./.github/workflows/azure-static-web-apps-deploy.yml
+        secrets: inherit
     
     cypress-test:
         needs: [deploy-api,deploy-swa-webpage]
