@@ -4,9 +4,14 @@ param functionName string = 'func-http-trigger-resume'
 param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param staticWebAppHostname string
+param cdbAccountName string = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
 
 var storageAccountName = 'strgresume${uniqueString(resourceGroup().id)}'
 var functionAppName = functionName
+
+resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' existing = {
+  name: cdbAccountName
+}
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: storageAccountName
@@ -64,6 +69,10 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'python'
+        }
+        {
+          name: 'CosmosDbConnectionSetting'
+          value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
         }
         {
           name: 'COSMOS_CONTAINER'
