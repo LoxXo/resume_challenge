@@ -3,7 +3,11 @@ on:
   push:
     branches:
       - main
-
+  workflow_dispatch:
+    inputs:
+        YOLO:
+            default: true
+            type: boolean
 jobs:
     deploy-az-resources:
         uses: ./.github/workflows/bicep_deployment.yml
@@ -17,6 +21,7 @@ jobs:
 
     deploy-swa-webpage:
         needs: deploy-az-resources
+        if: ${{ !failure() && !cancelled() }}
         uses: ./.github/workflows/azure-static-web-apps-deploy.yml
         secrets: inherit
     
