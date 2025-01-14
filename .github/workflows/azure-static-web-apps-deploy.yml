@@ -4,9 +4,10 @@ on:
   # workflow_call:
   workflow_dispatch:
   workflow_run:
-     workflows: [Deploy Bicep file]
-     types:
+    workflows: [Azure Functions API CI/CD]
+    types:
       - completed
+
 env:
   STATIC_WEB_APP_NAME: 'web-resume-00'   # set this to the name of your static web app on Azure
   RESOURCE_GROUP_NAME: 'rg-resume-00'   # set this to the name of your resource group on Azure

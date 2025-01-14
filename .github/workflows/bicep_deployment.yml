@@ -1,9 +1,9 @@
 name: Deploy Bicep file
 on:
   workflow_call:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   login-and-deploy-bicep:
