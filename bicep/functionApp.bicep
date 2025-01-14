@@ -70,10 +70,10 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'python'
         }
-        {
-          name: 'CosmosDbConnectionSetting'
-          value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
-        }
+        // {
+        //   name: 'CosmosDbConnectionSetting'
+        //   value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
+        // }
         {
           name: 'COSMOS_CONTAINER'
           value: 'Container1'
