@@ -32,6 +32,7 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   sku: {
     name: 'Y1'
   }
+  // linux is required for python, functionapp is consumption plan, reserved is to allow linux
   kind: 'functionapp,linux'
   properties: {
     reserved: true
@@ -41,7 +42,6 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
 resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
   name: functionName
   location: functionLocation
-  // linux is required for python, functionapp is consumption plan
   kind: 'functionapp,linux'
   identity: {
     type: 'SystemAssigned'
