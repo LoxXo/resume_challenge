@@ -1,17 +1,17 @@
 name: Azure Static Web Apps Webpage CI/CD
 
 on:
-  workflow_call:
-  #  workflow_dispatch
-  # workflow_run:
-  #   workflows: [Deploy Bicep file]
-  #   types:
-  #     - completed
+  # workflow_call:
+  workflow_dispatch:
+  workflow_run:
+     workflows: [Deploy Bicep file]
+     types:
+      - completed
 env:
   STATIC_WEB_APP_NAME: 'web-resume-00'   # set this to the name of your static web app on Azure
   RESOURCE_GROUP_NAME: 'rg-resume-00'   # set this to the name of your resource group on Azure
 jobs:
-  build_and_deploy_job:
+  build-and-deploy-job:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     # if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
