@@ -13,14 +13,14 @@ resource newRG 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   location: resourceGroupLocation
 }
 
-module swa 'staticWebApp.bicep' = {
-  scope: newRG
-  name: 'staticWebApp'
-}
-
 module cdbacc 'cosmosDB_account.bicep' = {
   scope: newRG
   name: 'cosmosDBAccount'
+}
+
+module swa 'staticWebApp.bicep' = {
+  scope: newRG
+  name: 'staticWebApp'
 }
 
 module fapp 'functionApp.bicep' = {
