@@ -29,7 +29,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Get Static Web Apps API Token as secret output
-        id: swa_token
+        id: swa-token
         run: |
           apikey=$(az staticwebapp secrets list --name '${{ env.STATIC_WEB_APP_NAME }}' -g '${{ env.RESOURCE_GROUP_NAME }}' --query "properties.apiKey" | sed -e 's/^"//' -e 's/"$//')
           echo "::add-mask::$apikey"
@@ -39,7 +39,7 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ steps.swa_token.outputs.web_apikey }}
+          azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.web_apikey }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######

@@ -17,24 +17,27 @@ jobs:
   # login into azure -> return defaultHostname with az CLI
   get-default-hostname:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
-      default-hostname: ${{ steps.get-default-hostname.outputs.URL }}
+      default-hostname: ${{ steps.get-data.outputs.URL }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
       - name: Log into Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Get defaultHostname
-        id: get-default-hostname
+      - name: Get default hostname via Azure CLI
+        id: get-data
         run: |
           default-hostname=$(az staticwebapp show -n '${{ env.STATIC_WEB_APP_NAME }}' -g '${{ env.RESOURCE_GROUP_NAME }}' --query 'defaultHostname' -o tsv)
           echo 'URL=$default-hostname' >> '$GITHUB_OUTPUT'
 
   cypress-run:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: get-default-hostname
     steps:
       # - name: Sleep for 2 minutes           
