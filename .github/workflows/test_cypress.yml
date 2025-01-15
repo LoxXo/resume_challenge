@@ -14,10 +14,10 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
-      - name: Sleep for 10 minutes           
+      - name: Sleep for 5 minutes           
         uses: jakejarvis/wait-action@v0.1.1
         with:
-          time: '10m'
+          time: '5m'
           
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,8 +27,8 @@ jobs:
         with:
             # Disable running of tests within install job
             runTests: false
-            build: npm run build
-            working-directory: tests
+            working-directory: ./tests
+            build: npm run build --verbose
 
       - name: Save build folder
         uses: actions/upload-artifact@v4
@@ -41,10 +41,10 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
-      - name: Sleep for 10 minutes           
+      - name: Sleep for 7 minutes           
         uses: jakejarvis/wait-action@v0.1.1
         with:
-          time: '12m'
+          time: '7m'
 
       - name: Checkout
         uses: actions/checkout@v4
