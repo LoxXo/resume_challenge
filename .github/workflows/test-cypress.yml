@@ -15,11 +15,11 @@ env:
 jobs:
   # outputs can only be passed inside one job, as we can not use reusable workflows (they're bugged for over a year now)
   # login into azure -> return defaultHostname with az CLI
-  get-defaultHostname:
+  get-default-hostname:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     outputs:
-      defaultHostname: ${{ steps.get-defaultHostname.outputs.URL }}
+      default-hostname: ${{ steps.get-default-hostname.outputs.URL }}
     steps:
       - name: Log into Azure
         uses: azure/login@v1
@@ -27,15 +27,15 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Get defaultHostname
-        id: get-defaultHostname
+        id: get-default-hostname
         run: |
-          defaultHostname=$(az staticwebapp show -n '${{ env.STATIC_WEB_APP_NAME }}' -g '${{ env.RESOURCE_GROUP_NAME }}' --query 'defaultHostname' -o tsv)
-          echo 'URL=$defaultHostname' >> '$GITHUB_OUTPUT'
+          default-hostname=$(az staticwebapp show -n '${{ env.STATIC_WEB_APP_NAME }}' -g '${{ env.RESOURCE_GROUP_NAME }}' --query 'defaultHostname' -o tsv)
+          echo 'URL=$default-hostname' >> '$GITHUB_OUTPUT'
 
   cypress-run:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
-    needs: get-defaultHostname
+    needs: get-default-hostname
     steps:
       # - name: Sleep for 2 minutes           
       #   uses: jakejarvis/wait-action@v0.1.1
@@ -47,15 +47,16 @@ jobs:
       - name: Cypress install
         uses: cypress-io/github-action@v6
         with:
-          runTests: false
           working-directory: ./tests
           build: npm install --verbose
+          runTests: false
           
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env: 
-          URL: ${{ needs.get-defaultHostname.outputs.defaultHostname }}
+          URL: ${{ needs.get-default-hostname.outputs.default-hostname }}
         with:
-          spec: 'cypress/e2e/resume_page_live.cy.js'
+          working-directory: ./tests
+          spec: 'cypress/e2e/resume-page-live.cy.js'
           command: npx cypress run --env URL='${{ env.URL }}'
           browser: chrome

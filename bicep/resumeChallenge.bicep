@@ -13,7 +13,7 @@ resource newRG 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   location: resourceGroupLocation
 }
 
-module cdbacc 'cosmosDB_account.bicep' = {
+module cdbacc 'cosmosDBAccount.bicep' = {
   scope: newRG
   name: 'cosmosDBAccount'
 }

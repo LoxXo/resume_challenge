@@ -30,6 +30,6 @@ jobs:
         inlineScript: |
           az deployment sub create \
             --name deploy-${{ github.run_id }} \
-            --template-file bicep/resume_challenge.bicep \
+            --template-file bicep/resumeChallenge.bicep \
             -p resourceGroupName=rg-resume-00 resourceGroupLocation=northeurope \
             -l northeurope
