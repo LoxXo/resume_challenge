@@ -2,7 +2,7 @@ describe('The Resume Page', () => {
   it('successfully loads', () => {
     cy.intercept({method:'GET', url:'func-http-trigger-resume.azurewebsites.net/api/new_visitor'},
     req => {req.destroy()})
-    cy.visit('/') // change URL to match your dev URL
+    cy.visit(Cypress.env('URL')) // change URL to match your dev URL
     cy.get('[data-cy="visitors-js"').should('have.text', 'Error')
     cy.get('[data-cy="name"]').should('have.text', 'Jakub Wajda')
     cy.get('[data-cy="head_work"]').should('have.text', 'WORK EXPERIENCE')
