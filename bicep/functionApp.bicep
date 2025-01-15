@@ -5,11 +5,11 @@ param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param staticWebAppHostname string
 
-var cdbAccountName = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
+var cdbAccountName = 'cosmos-resume-${uniqueString(resourceGroup().id)}-${resourceGroup().location}'
 var storageAccountName = 'strgresume${uniqueString(resourceGroup().id)}'
 var functionAppName = functionName
 
-resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' existing = {
+resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2024-12-01-preview' existing = {
   name: cdbAccountName
 }
 
@@ -70,10 +70,10 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'python'
         }
-        // {
-        //   name: 'CosmosDbConnectionSetting'
-        //   value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
-        // }
+        {
+          name: 'CosmosDbConnectionSetting'
+          value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
+        }
         {
           name: 'COSMOS_CONTAINER'
           value: 'Container1'
