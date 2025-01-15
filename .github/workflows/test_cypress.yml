@@ -30,12 +30,12 @@ jobs:
             working-directory: ./tests
             build: npm install --verbose
 
-      - name: Save node_modules folder
+      - name: Save node folder
         uses: actions/upload-artifact@v4
         with:
-          name: node_modules
+          name: node
           if-no-files-found: error
-          path: node_modules
+          path: /usr/local/bin/node
           
   cypress-run:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -49,12 +49,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download the node_modules folder
+      - name: Download the node folder
         uses: actions/download-artifact@v4
         with:
-          name: node_modules
-          path: node_modules
-
+          name: node
+          path: /usr/local/bin/node
+          
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
