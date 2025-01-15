@@ -14,10 +14,10 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
-      - name: Sleep for 1 minutes           
-        uses: jakejarvis/wait-action@v0.1.1
-        with:
-          time: '1m'
+      # - name: Sleep for 1 minutes           
+      #   uses: jakejarvis/wait-action@v0.1.1
+      #   with:
+      #     time: '1m'
           
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,26 +31,27 @@ jobs:
             build: npm install --verbose
 
       - name: Save node folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: node
           if-no-files-found: error
           path: /usr/local/bin/node
+          overwrite: true
           
   cypress-run:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
-      - name: Sleep for 2 minutes           
-        uses: jakejarvis/wait-action@v0.1.1
-        with:
-          time: '2m'
+      # - name: Sleep for 2 minutes           
+      #   uses: jakejarvis/wait-action@v0.1.1
+      #   with:
+      #     time: '2m'
 
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Download the node folder
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: node
           path: /usr/local/bin/node
