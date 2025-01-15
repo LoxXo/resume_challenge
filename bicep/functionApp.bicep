@@ -5,7 +5,7 @@ param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param staticWebAppHostname string
 
-var cdbAccountName = 'cosmos-resume-${uniqueString(resourceGroup().id)}-${resourceGroup().location}'
+var cdbAccountName = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
 var storageAccountName = 'strgresume${uniqueString(resourceGroup().id)}'
 var functionAppName = functionName
 
