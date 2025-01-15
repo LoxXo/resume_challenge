@@ -19,11 +19,11 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     outputs:
-      default-hostname: ${{ steps.get-data.outputs.URL }}
+      default-hostname: ${{ steps.get-data.outputs.url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Log into Azure
         uses: azure/login@v1
         with:
@@ -32,8 +32,8 @@ jobs:
       - name: Get default hostname via Azure CLI
         id: get-data
         run: |
-          default-hostname=$(az staticwebapp show -n '${{ env.STATIC_WEB_APP_NAME }}' -g '${{ env.RESOURCE_GROUP_NAME }}' --query 'defaultHostname' -o tsv)
-          echo 'URL=$default-hostname' >> '$GITHUB_OUTPUT'
+          hostname=$(az staticwebapp show -n '${{ env.STATIC_WEB_APP_NAME }}' -g '${{ env.RESOURCE_GROUP_NAME }}' --query 'defaultHostname' -o tsv)
+          echo 'url=$hostname' >> '$GITHUB_OUTPUT'
 
   cypress-run:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -61,5 +61,5 @@ jobs:
         with:
           working-directory: ./tests
           spec: 'cypress/e2e/resume-page-live.cy.js'
-          command: npx cypress run --env URL='${{ env.URL }}'
+          command: npx cypress run --env url='${{ env.URL }}'
           browser: chrome
