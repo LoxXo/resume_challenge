@@ -47,6 +47,7 @@ jobs:
       - name: Cypress install
         uses: cypress-io/github-action@v6
         with:
+          runTests: false
           working-directory: ./tests
           build: npm install --verbose
           
