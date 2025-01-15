@@ -31,7 +31,7 @@ jobs:
             build: npm install --verbose
 
       - name: Save node folder
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: node
           if-no-files-found: error
