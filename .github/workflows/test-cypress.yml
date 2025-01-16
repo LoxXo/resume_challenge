@@ -48,7 +48,7 @@ jobs:
       - name: Cypress run on chrome
         uses: cypress-io/github-action@v6
         env: 
-          CYPRESS_url: ${{ steps.get-data.outputs.url }}
+          CYPRESS_url: 'https://${{ steps.get-data.outputs.url }}'
         with:
           working-directory: ./tests
           spec: 'cypress/e2e/resume-page-live.cy.js'
