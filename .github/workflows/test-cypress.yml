@@ -16,7 +16,7 @@ jobs:
   # outputs can only be passed inside one job, as we can not use reusable workflows (they're bugged for over a year now)
   # login into azure -> return defaultHostname with az CLI
   cypress-run:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-22.04
     steps:
       - name: 'Checkout GitHub Action'
