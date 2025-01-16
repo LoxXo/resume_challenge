@@ -1,25 +1,28 @@
 describe('The Resume Page', () => {
-  it('Loads the webpage with text content', () => {
+  it('Loads the webpage with text content and failed visitcounter.js', () => {
     cy.log('URL env value:', Cypress.env('url'))
     cy.intercept({method:'GET', url:'func-http-trigger-resume.azurewebsites.net/api/new_visitor'},
     req => {req.destroy()})
-    cy.visit(Cypress.env('url')) // change URL to match your dev URL
-    cy.get('[data-cy="visitors-js"').should('have.text', 'Error')
+    //cy.visit(Cypress.env('url')) // change URL to match your dev URL
+    cy.visit(Cypress.env('url'))
+    cy.get('[data-cy="visitors"').should('have.text', 'Error')
     cy.get('[data-cy="name"]').should('have.text', 'Jakub Wajda')
     cy.get('[data-cy="head_work"]').should('have.text', 'WORK EXPERIENCE')
-    cy.get('[data-cy="first_record"]').should('have.text', 'Fujitsu02.2023 - current')
+    cy.get('[data-cy="first_job_record"]').should('have.text', 'Fujitsu02.2023 - current')
   })
-  it('API is returning the data', () => {
-    cy.intercept('GET', 'func-http-trigger-resume.azurewebsites.net/api/new_visitor?').as('getVisitor')
-    cy.wait('@getVisitor').then((interception) => {
-    assert.isNotNull(interception.response.body, 'API call has returned no data')
-    })
   it('Images are visible', () => {
+    cy.visit(Cypress.env('url'))
     cy.get('[data-cy="github_logo"]')
     .should('be.visible')
     .and(($img) => {
-    expect($img[0].naturalWidth).to.be.greaterThan(0)
+      expect($img[0].naturalWidth).to.be.greaterThan(0)
     })
+  })
+  it('API is returning the data', () => {
+    cy.visit(Cypress.env('url'))
+    cy.intercept('GET', 'func-http-trigger-resume.azurewebsites.net/api/new_visitor?').as('getVisitor')
+    cy.wait('@getVisitor').then((interception) => {
+    assert.isNotNull(interception.response.body, 'API call has returned no data')
     })
   })
 })

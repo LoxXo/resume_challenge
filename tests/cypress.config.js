@@ -11,4 +11,7 @@ module.exports = defineConfig({
           console.log(...args);
           return null;
         },
-      })}}})
+      })
+    }
+  }
+})
