@@ -45,15 +45,15 @@ jobs:
           build: npm install
           runTests: false
           
-      - name: Cypress run
+      - name: Cypress run on chrome
         uses: cypress-io/github-action@v6
         env: 
-          url: ${{ steps.get-data.outputs.url }}
+          CYPRESS_url: ${{ steps.get-data.outputs.url }}
         with:
           working-directory: ./tests
           spec: 'cypress/e2e/resume-page-live.cy.js'
           #start: npx cypress run
-          command: npx cypress run --env url='$url'
+          #command: npx cypress run
           browser: chrome
               
               # - name: Sleep for 2 minutes           
