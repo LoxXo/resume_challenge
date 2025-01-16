@@ -1,6 +1,6 @@
 describe('The Resume Page', () => {
-  cy.log('URL env value:', Cypress.env('url'))
   it('Successfully loads the webpage with text content', () => {
+    cy.log('URL env value:', Cypress.env('url'))
     cy.intercept({method:'GET', url:'func-http-trigger-resume.azurewebsites.net/api/new_visitor'},
     req => {req.destroy()})
     cy.visit(Cypress.env('url')) // change URL to match your dev URL
@@ -9,7 +9,7 @@ describe('The Resume Page', () => {
     cy.get('[data-cy="head_work"]').should('have.text', 'WORK EXPERIENCE')
     cy.get('[data-cy="first_record"]').should('have.text', 'Fujitsu02.2023 - current')
   })
-  it('API is returning data', () => {
+  it('API is returning the data', () => {
     cy.intercept('GET', 'func-http-trigger-resume.azurewebsites.net/api/new_visitor?').as('getVisitor')
     cy.wait('@getVisitor').then((interception) => {
     assert.isNotNull(interception.response.body, 'API call has returned no data')
