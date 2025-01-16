@@ -17,13 +17,10 @@ jobs:
   # login into azure -> return defaultHostname with az CLI
   get-default-hostname:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       default-hostname: ${{ steps.get-data.outputs.url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Log into Azure
         uses: azure/login@v1
         with:
@@ -35,18 +32,18 @@ jobs:
           hostname=$(az staticwebapp show -n '${{ env.STATIC_WEB_APP_NAME }}' -g '${{ env.RESOURCE_GROUP_NAME }}' --query 'defaultHostname' -o tsv)
           echo 'url=$hostname' >> '$GITHUB_OUTPUT'
 
+      - name: test get-data
+        run: echo ${{ steps.get-data.outputs.url }}
+
   cypress-run:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: get-default-hostname
     steps:
       # - name: Sleep for 2 minutes           
       #   uses: jakejarvis/wait-action@v0.1.1
       #   with:
       #     time: '2m'
-      - name: Checkout
-        uses: actions/checkout@v4
-        
       - name: Cypress install
         uses: cypress-io/github-action@v6
         with:
@@ -57,9 +54,10 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env: 
-          URL: ${{ needs.get-default-hostname.outputs.default-hostname }}
+          url: ${{ needs.get-default-hostname.outputs.default-hostname }}
         with:
           working-directory: ./tests
           spec: 'cypress/e2e/resume-page-live.cy.js'
-          command: npx cypress run --env url='${{ env.URL }}'
+          #start: npx cypress run
+          command: npx cypress run --env url='${{ env.url }}'
           browser: chrome
