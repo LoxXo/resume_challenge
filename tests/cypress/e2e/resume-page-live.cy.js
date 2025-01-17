@@ -1,5 +1,5 @@
 describe('The Resume Page', () => {
-  it('Loads the webpage with text content and failed visitcounter.js', () => {
+  it('Loads the webpage with text content and failed API call', () => {
     cy.log('URL env value:', Cypress.env('url'))
     //cy.visit(Cypress.env('url')) // change URL to match your dev URL
     cy.visit(Cypress.env('url'))

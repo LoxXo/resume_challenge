@@ -1,5 +1,5 @@
 describe('The Resume Page', () => {
-  it('Loads the webpage with text content and failed visitcounter.js', () => {
+  it('Loads the webpage with text content and failed API call', () => {
     cy.log('URL env value:', Cypress.env('url'))
     // cy.intercept({method:'GET', url:'https://func-http-trigger-resume.azurewebsites.net/api/new_visitor?'},
     // req => {req.destroy()})
