@@ -23,6 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+// Log printing in headless
 Cypress.Commands.overwrite("log", function(log, ...args) {
     const indent = "\t"; // You can adjust the number of tabs or spaces here
     const formattedArgs = args.map((arg) =>

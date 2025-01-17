@@ -52,8 +52,6 @@ jobs:
         with:
           working-directory: ./tests
           spec: 'cypress/e2e/resume-page-live.cy.js'
-          #start: npx cypress run
-          #command: npx cypress run
           browser: chrome
               
               # - name: Sleep for 2 minutes           

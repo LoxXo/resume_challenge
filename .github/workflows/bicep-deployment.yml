@@ -6,6 +6,17 @@ on:
     branches:
       - main
 
+  # Mind that resource group, static web app, and function app names are static in this deployment
+  # and they are hardcoded in the workflow files to shorter the code because
+  # reusable workflows are unrealiable - workflow_call is skipping jobs in this case and the bug is already 1 year old
+  # Adding values to repository secrets can be a cleaner version of static values
+  ###
+  # Resource group location can be selected, but in case of StaticWebApp is hard set in staticWebApp.bicep as pool of option is limited
+  # Problem with location can also happen when creating another Azure resources and will break the deployment
+env:
+  RESOURCE_GROUP_NAME: 'rg-resume-00'   # set this to the name of your resource group on Azure
+  RESOURCE_GROUP_LOCATION: 'northeurope'   # set this to the location of your resource group on Azure
+
 jobs:
   login-and-deploy-bicep:
     runs-on: ubuntu-latest
@@ -24,6 +35,7 @@ jobs:
         inlineScript: | 
           az account show
 
+
     - name: Deploy Bicep file
       uses: azure/cli@v1
       with:
@@ -31,5 +43,5 @@ jobs:
           az deployment sub create \
             --name deploy-${{ github.run_id }} \
             --template-file bicep/resumeChallenge.bicep \
-            -p resourceGroupName=rg-resume-00 resourceGroupLocation=northeurope \
+            -p resourceGroupName=${{env.RESOURCE_GROUP_NAME}} resourceGroupLocation=${{env.RESOURCE_GROUP_LOCATION}} \
             -l northeurope

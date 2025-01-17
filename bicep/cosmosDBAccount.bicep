@@ -2,11 +2,12 @@ targetScope = 'resourceGroup'
 
 param cdbAccountName string = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
 param cdbAccountLocation string = resourceGroup().location
-@description('hardcoded database same as in the functionApp.bicep')
+@description('static database same as in the functionApp.bicep')
 param databaseName string = 'ResumeLive'
-@description('hardccoded container name same as in the functionApp.bicep')
+@description('static container name same as in the functionApp.bicep')
 param containerName string = 'Container1'
 
+@description('Only one account can be created on Free Tier and any atempt to create more will return an error')
 resource cdbacc 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
   name: cdbAccountName
   location: cdbAccountLocation
@@ -24,6 +25,7 @@ resource cdbacc 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
     }]
   }
 }
+@description('Need to be deployed with container before running API. Python azure.functions in theory allows to dynamically create databases and containers, but in practice it does not work')
 resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2024-11-15' = {
   parent: cdbacc
   name: databaseName

@@ -26,19 +26,20 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
+@description('linux is required to run python, functionapp is consumption plan, reserved: true is needed to select Linux')
 resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: functionName
   location: functionLocation
   sku: {
     name: 'Y1'
   }
-  // linux is required for python, functionapp is consumption plan, reserved is to allow linux
   kind: 'functionapp,linux'
   properties: {
     reserved: true
   }
 }
 
+@description('appSettings are Environment Variables')
 resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
   name: functionName
   location: functionLocation
@@ -94,7 +95,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
     httpsOnly: true
   }
 }
-
+@description('Seems like CORS needs to be added after creating FunctionApp')
 resource functionAppSiteConfig 'Microsoft.Web/sites/config@2022-03-01' = {
   parent: functionApp
   name: 'web'

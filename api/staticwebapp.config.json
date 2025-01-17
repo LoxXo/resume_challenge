@@ -4,11 +4,6 @@
       {
         "route": "/api/*",
         "methods": ["GET"]
-      },
-      {
-        "route": "/api/*",
-        "methods": ["PUT", "POST", "PATCH", "DELETE"],
-        "allowedRoles": ["administrator"]
       }
     ],
     "navigationFallback": {
