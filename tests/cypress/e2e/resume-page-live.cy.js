@@ -1,11 +1,10 @@
 describe('The Resume Page', () => {
   it('Loads the webpage with text content and failed API call', () => {
     cy.log('URL env value:', Cypress.env('url'))
-    //cy.visit(Cypress.env('url')) // change URL to match your dev URL
-    cy.visit(Cypress.env('url'))
     cy.intercept({method:'GET', url:'https://func-http-trigger-resume.azurewebsites.net/api/new_visitor?'},
-    req => {req.destroy()})
+      req => {req.destroy()})
     cy.intercept({method:'GET', url:Cypress.env('url')}).as('page_request')
+    cy.visit(Cypress.env('url'))
     cy.wait('@page_request')
     cy.get('[data-cy="name"]').should('have.text', 'Jakub Wajda')
     cy.get('[data-cy="head_work"]').should('have.text', 'WORK EXPERIENCE')
@@ -14,7 +13,7 @@ describe('The Resume Page', () => {
   })
   it('Images are visible', () => {
     cy.intercept({method:'GET', url:Cypress.env('url')}).as('page_request')
-    cy.visit(Cypress.env('url')) // change URL to match your dev URL
+    cy.visit(Cypress.env('url'))
     cy.wait('@page_request')
     cy.get('[data-cy="github_logo"]')
     .should('be.visible')
@@ -25,9 +24,10 @@ describe('The Resume Page', () => {
     })
   })
   it('API is returning the data', () => {
-    cy.intercept('GET', 'func-http-trigger-resume.azurewebsites.net/api/new_visitor?').as('getVisitor')
+    cy.intercept('GET', 'https://func-http-trigger-resume.azurewebsites.net/api/new_visitor?').as('getVisitor')
     cy.visit(Cypress.env('url'))
     cy.wait('@getVisitor').then((interception) => {
+    cy.log('API response:', interception)
     assert.isNotNull(interception.response.body, 'API call has not returned any data')
     })
   })
