@@ -1,6 +1,6 @@
 targetScope = 'resourceGroup'
 
-param cdbAccountName string = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
+param cdbAccountName string = 'cosmos-resume-live'
 param cdbAccountLocation string = resourceGroup().location
 @description('static database same as in the functionApp.bicep')
 param databaseName string = 'ResumeLive'
