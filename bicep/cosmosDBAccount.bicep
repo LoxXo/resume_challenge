@@ -9,7 +9,7 @@ param containerName string = 'Container1'
 param cdbExists bool = false
 
 resource resManagedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-11-30' = {
-  name: 'rg-resume-00'
+  name: 'resume-live-01'
   location: 'northeurope'
 }
 

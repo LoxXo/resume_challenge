@@ -9,8 +9,9 @@ on:
       - completed
 
 env:
+  # this version is for LIVE on origin/main branch
+  RESOURCE_GROUP_NAME: 'resume-live-00'   # set this to the name of your resource group on Azure
   STATIC_WEB_APP_NAME: 'web-resume-00'   # set this to the name of your static web app on Azure
-  RESOURCE_GROUP_NAME: 'rg-resume-00'   # set this to the name of your resource group on Azure
 
 jobs:
   # outputs can only be passed inside one job, as we can not use reusable workflows (they're bugged for over a year now)
