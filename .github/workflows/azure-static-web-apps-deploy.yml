@@ -9,7 +9,7 @@ on:
       - completed
 
 env:
-  RESOURCE_GROUP_NAME: 'resume-live-01'   # set this to the name of your resource group on Azure
+  RESOURCE_GROUP_NAME: 'resume-live-00'   # set this to the name of your resource group on Azure
   STATIC_WEB_APP_NAME: 'web-resume-00'   # set this to the name of your static web app on Azure
 jobs:
   build-and-deploy-job:

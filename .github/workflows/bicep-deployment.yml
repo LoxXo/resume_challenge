@@ -20,7 +20,7 @@ on:
   # Resource group location can be selected, but in case of StaticWebApp is hard set in staticWebApp.bicep as pool of options is limited
   # Problem with asset location can also happen when creating another Azure resources and that will fail the deployment
 env:
-  RESOURCE_GROUP_NAME: 'resume-live-01'   # set this to the name of your resource group on Azure
+  RESOURCE_GROUP_NAME: 'resume-live-00'   # set this to the name of your resource group on Azure
   RESOURCE_GROUP_LOCATION: 'northeurope'   # set this to the location of your resource group on Azure
 
 jobs:
