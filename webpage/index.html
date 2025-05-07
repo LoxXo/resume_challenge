@@ -1,40 +1,45 @@
-<!DOCTYPE html>
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src https://fonts.gstatic.com/s/mulish/; connect-src https://func-http-trigger-resume.azurewebsites.net/; style-src-elem 'self' https://fonts.googleapis.com/"> -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src https://fonts.gstatic.com/s/mulish/; connect-src https://func-http-trigger-resume.azurewebsites.net/; style-src-elem https://fonts.googleapis.com/css2?family=Mulish">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>JW Resume</title>
     <link rel="icon" href="images/favicon.png" type="image/png">
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <script src="visitormarker.js" async></script>
+    <script src="visitcounter.js" async></script>
   </head>
-<div id="header" data-cy="header"></div>
-<div class="left" data-cy="left"></div>
-<div class="right" data-cy="right"></div>
-<div class="preface" data-cy="preface">
+<div id="header"></div>
+<div class="left"></div>
+<div class="right"></div>
+<div class="preface">
   <br><br>
   <h1>Welcome</h1>
-  <hr class="first_hr" data-cy="first_hr">
-  <p>This page was made as part of The Cloud Resume Challenge Azure Edition. Frontend is humble, but I never strived to be a frontend guy. Backend is hosted on the the Azure expect for DNS and built as Infrastructure as Code in a Azure Bicep to enable automatic deployment via the Github Actions. </p>
+  <hr class="first_hr">
+  <p>This page was made as part of The Cloud Resume Challenge Azure Edition. Frontend is humble, but I never strived to be a frontend guy. Backend is hosted on the the Azure expect for a DNS and built as Infrastructure as Code to enable automatic deployment via the Github Actions. </p>
 </div>
-<div class="stuff data-cy="stuff">
+<div class="stuff">
   <br><br>
-  <h1 data-cy="name">Jakub Wajda</h1>
-  <h2 data-cy="email">✉ kubawa19@gmail.com <img src="images/github_logo.png" data-cy="github_logo" alt="GitHub logo" width="15" height="15" />
+  <h1>Jakub Wajda</h1>
+  <h2>✉ kubawa19@gmail.com <img src="images/github_logo.png" alt="GitHub logo" width="15" height="15" />
     <a href="https://github.com/LoxXo">github.com/LoxXo<a />
   </h2>
   <hr class="first_hr">
-  <p class="head" data-cy="head_skills">SKILLS</p>
+  <p class="head">SKILLS</p>
   <hr />
-  <p class="skills">Language: Polish, English</p>
-  <p class="skills">Work: Splunk, Linux, Networking, Ansible, Azure Sentinel, Regex, Python, Bash, Creating documentation</p>
-  <p class="skills">Projects: Azure (Function App, Static Web Apps, Cosmos DB, ARM), Bicep, Docker, Grafana, SQL (PostgreSQL), GitHub Actions</p>
-  <p class="skills">Soft: Ability to receive and give feedback, Describing technical topics to non-technical personnel, Curiosity to dig deeper, Ease in collaborating with others, Open-mindedness</p>
+    <p class="skills"><b>Language</b>: Polish, English</p>
+    <p class="skills"><b>Work</b>: Splunk, Linux, Networking, Palo Alto Panorama, Ansible, Azure Sentinel, HAProxy, Regex, Python, Bash, Creating technical documentation</p>
+    <p class="skills"><b>Projects</b>: Azure (Function App, Static Web Apps, Cosmos DB, ARM), Bicep, Terraform, Docker, Kubernetes, Grafana, SQL (PostgreSQL), GitHub Actions</p>
+    <p class="skills"><b>Soft</b>: Ability to receive and give feedback, Describing technical topics to non-technical personnel, Curiosity to dig deeper, Ease in collaborating with others, Open-mindedness</p>
   <hr />
-  <p class="head" data-cy="head_work">WORK EXPERIENCE</p>
-  <p class="record" data-cy="first_job_record">Fujitsu<span class="date">02.2023 - current</span></p>
-  <p class="job_title" data-cy="first_job_tittle">SIEM Engineer</p>
+  <p class=" head">WORK EXPERIENCE</p>
+  <p class="record">Fujitsu<span class="date">02.2023 - current</span></p>
+      <p class="job_title">Network Security Engineer</p>
+  <ul>
+    <li>Administration of Palo Alto next-generation firewalls.</li>
+    <li>Troubleshooting issues with VPN traffic and the GlobalProtect app.</li>
+  </ul>
+  <p class="job_title">SIEM Engineer</p>
   <ul>
     <li>Implemented alerts for important system and service performance drops or outages.</li>
     <li>Reduced usage of the SIEM services license without losing security coverage.</li>
@@ -43,20 +48,20 @@
     <li>Designing new and tuning existing security alerts.</li>
     <li>Working closely with ISMs, CSIRT/SOC, and clients.</li>
   </ul>
-  <p class="job_title" data-cy="second_job_title">IAM Engineer</p>
+  <p class="job_title">IAM Engineer</p>
   <ul>
     <li>Discovered a problem with process of account creation, that could led to doubling the needed work.</li>
     <li>Requesting for user's accesses and monitoring JML tasks for any breaches or errors.</li>
   </ul>
-  <p class="record" data-cy='second_job_record'>Hutchinson<span class="date">04.2022 - 06.2022</span></p>
-  <p class="job_title" data-cy="third_job_title">IT Support</p>
+  <p class="record">Hutchinson<span class="date">04.2022 - 06.2022</span></p>
+  <p class="job_title">IT Support</p>
   <ul>
     <li>Troubleshooting network, hardware and software problems.</li>
     <li>Assisting in SAP migration: configuration of computers, Zebra scanners and printers. Distributing new hardware to departments.</li>
   </ul>
   <hr />
-  <p class="head" data-cy="head_education">EDUCATION</p>
-  <p class="record" data-cy="education_record">Wyższa Szkoła Informatyki i
+  <p class="head">EDUCATION</p>
+  <p class="record">Wyższa Szkoła Informatyki i
     Zarządzania w Bielsku-Białej<span class="date">2021 - 2022</span></p>
   <p class="job_title">Postgraduate Degree, Computer Science</p>
   <hr />
@@ -65,8 +70,8 @@
   <p id="cert">Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC-900)<span class="date">06.2024</span></p>
   <p class="head"></p>
 </div>
-<div id="footer" data-cy="footer">
-  <p id="visitors" data-cy="visitors"></p>
+<div id="footer">
+  <p id="visitors"></p>
   <h2 id="name">^.^</h2>
 </div>
 </html>
