@@ -19,7 +19,7 @@ describe('The Resume Page', () => {
     .should('be.visible')
     .then(($img) => {
       expect($img[0].naturalWidth).to.be.greaterThan(0)
-    cy.get('head > link:nth-child(5)')
+    cy.get('[data-cy="favicon"]')
     .should('have.attr', 'href', 'images/favicon.png')
     })
   })
