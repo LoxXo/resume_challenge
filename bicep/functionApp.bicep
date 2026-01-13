@@ -22,6 +22,9 @@ param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param staticWebAppHostname string
 
+// Generates a unique container name for deployments.
+var deploymentStorageContainerName = 'app-package-${take(functionName, 32)}-${(uniqueString(resourceGroup().id))}'
+
 var cdbAccountName = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
 var storageAccountName = 'strgresume${uniqueString(resourceGroup().id)}'
 var functionAppName = functionName
@@ -40,6 +43,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   properties: {
     supportsHttpsTrafficOnly: true
     defaultToOAuthAuthentication: true
+    minimumTlsVersion: 'TLS1_2'
   }
 }
 
@@ -114,10 +118,9 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       deployment: {
         storage: {
           type: 'blobContainer'
-          //value: '${storage.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+          value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
           authentication: {
-            type: 'UserAssignedIdentity'
-            //userAssignedIdentityResourceId: userAssignedIdentity.id
+            type: 'SystemAssignedIdentity'
           }
         }
       }
