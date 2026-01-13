@@ -25,7 +25,7 @@ resource checkCdbAccount 'Microsoft.Resources/deploymentScripts@2023-08-01' = {
     }
   }
   properties: {
-    azPowerShellVersion: '9.4'
+    azPowerShellVersion: '15.1'
     scriptContent: '''
       $cdbAccountName = '${cdbAccountName}'
       $resourceGroupName = '${resourceGroup().name}'
