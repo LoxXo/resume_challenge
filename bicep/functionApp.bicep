@@ -110,9 +110,8 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           value: 'visitors'
         }
       ]
-      ftpsState: 'FtpsOnly'
-      minTlsVersion: '1.2'
-      linuxFxVersion: 'Python|3.11'
+      //ftpsState: 'FtpsOnly'
+      //minTlsVersion: '1.2'
     }
         functionAppConfig: {
       deployment: {
