@@ -110,8 +110,8 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           value: 'visitors'
         }
       ]
-      //ftpsState: 'FtpsOnly'
-      //minTlsVersion: '1.2'
+      ftpsState: 'FtpsOnly'
+      minTlsVersion: '1.2'
     }
         functionAppConfig: {
       deployment: {
@@ -119,7 +119,8 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           type: 'blobContainer'
           value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
           authentication: {
-            type: 'SystemAssignedIdentity'
+            type: 'StorageAccountConnectionString'
+            storageAccountConnectionStringName: storageAccountName
           }
         }
       }
