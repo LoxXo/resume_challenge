@@ -1,5 +1,22 @@
   targetScope = 'resourceGroup'
 
+@description('Language runtime used by the function app.')
+@allowed(['dotnet-isolated','python','java', 'node', 'powerShell'])
+param functionAppRuntime string = 'python'
+
+@description('Target language version used by the function app.')
+@allowed(['3.10','3.11', '7.4', '8.0', '9.0', '10', '11', '17', '20'])
+param functionAppRuntimeVersion string = '3.11'
+
+@description('The maximum scale-out instance count limit for the app.')
+@minValue(40)
+@maxValue(1000)
+param maximumInstanceCount int = 40
+
+@description('The memory size of instances used by the app.')
+@allowed([2048,4096])
+param instanceMemoryMB int = 2048
+
 param functionName string = 'func-http-trigger-resume'
 param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
@@ -92,6 +109,26 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       ftpsState: 'FtpsOnly'
       minTlsVersion: '1.2'
       linuxFxVersion: 'Python|3.11'
+    }
+        functionAppConfig: {
+      deployment: {
+        storage: {
+          type: 'blobContainer'
+          //value: '${storage.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+          authentication: {
+            type: 'UserAssignedIdentity'
+            //userAssignedIdentityResourceId: userAssignedIdentity.id
+          }
+        }
+      }
+      scaleAndConcurrency: {
+        maximumInstanceCount: maximumInstanceCount
+        instanceMemoryMB: instanceMemoryMB
+      }
+      runtime: { 
+        name: functionAppRuntime
+        version: functionAppRuntimeVersion
+      }
     }
     httpsOnly: true
   }
