@@ -30,10 +30,11 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
 resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: functionName
   location: functionLocation
+  kind: 'functionapp'
   sku: {
-    name: 'Y1'
+    tier: 'FlexConsumption'
+    name: 'FC1'
   }
-  kind: 'functionapp,linux'
   properties: {
     reserved: true
   }
