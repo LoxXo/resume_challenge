@@ -120,7 +120,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
           authentication: {
             type: 'StorageAccountConnectionString'
-            storageAccountConnectionStringName: storageAccountName
+            storageAccountConnectionStringName: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
           }
         }
       }
