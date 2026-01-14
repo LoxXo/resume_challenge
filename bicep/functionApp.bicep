@@ -117,7 +117,7 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       deployment: {
         storage: {
           type: 'blobContainer'
-          value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+          value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
           authentication: {
             type: 'StorageAccountConnectionString'
             storageAccountConnectionStringName: storageAccountName
