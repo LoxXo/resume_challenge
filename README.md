@@ -23,12 +23,18 @@ C#, .Net is a Microsoft's baby and it shows. Function App documentation for Pyth
 Azure Monitor is not free.
 
 ### Github Actions
+help ***blinks 3 times***
+
 [Jobs skips](https://github.com/actions/runner/issues/2205) - [More on it](https://github.com/orgs/community/discussions/45058)\
 [Build Artifacts](https://github.com/actions/runner/issues/2205) - This one is affecting cypress tests if we would like to speed up multiple ones on a same build\
 [Extra](https://github.com/Felixoid/actions-experiments/issues/9) - Some (not) so funny reported issues I found when troubleshooting\
 [My favorite](https://github.com/actions/runner/issues/3266)\
-[Problem that arrised from flexConsumption plan](https://github.com/Azure/functions-action/issues/273) and:\
-(https://i.imgur.com/cRBSfiG.jpeg) \
-(https://i.imgur.com/YNLa7Ij.jpeg) \
-(https://i.imgur.com/Tck5xl6.jpeg) \
-(https://i.imgur.com/y4iK8Ui.jpeg)
+[Problem that arrised from flexConsumption plan](https://github.com/Azure/functions-action/issues/273) and:
+
+---
+![alt text](https://i.imgur.com/cRBSfiG.jpeg "Example 1 error") \
+![alt text](https://i.imgur.com/plyHpU7.png "Example 1 doc") \
+![alt text](https://i.imgur.com/YNLa7Ij.jpeg "Example 1 doc")
+---
+![alt text](https://i.imgur.com/Tck5xl6.jpeg "Example 2 error") \
+![alt text](https://i.imgur.com/y4iK8Ui.jpeg "Example 2 doc")
