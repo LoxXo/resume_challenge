@@ -28,7 +28,7 @@ Azure Monitor is not free.
 [Extra](https://github.com/Felixoid/actions-experiments/issues/9) - Some (not) so funny reported issues I found when troubleshooting\
 [My favorite](https://github.com/actions/runner/issues/3266)\
 [Problem that arrised from flexConsumption plan](https://github.com/Azure/functions-action/issues/273) and:\
-(https://imgur.com/a/T4KiMXd)\
-(https://imgur.com/a/Hy1so34)\
-(https://imgur.com/y4iK8Ui)\
-(https://imgur.com/Tck5xl6)
+(https://i.imgur.com/cRBSfiG.jpeg) \
+(https://i.imgur.com/YNLa7Ij.jpeg) \
+(https://i.imgur.com/Tck5xl6.jpeg) \
+(https://i.imgur.com/y4iK8Ui.jpeg)
