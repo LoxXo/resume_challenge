@@ -27,7 +27,7 @@ var deploymentStorageContainerName = 'app-package-${take(functionName, 32)}-${(u
 
 var cdbAccountName = 'cosmos-resume-${uniqueString(resourceGroup().id)}'
 var storageAccountName = 'strgresume${uniqueString(resourceGroup().id)}'
-var functionAppName = functionName
+//var functionAppName = functionName
 
 resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2024-12-01-preview' existing = {
   name: cdbAccountName
