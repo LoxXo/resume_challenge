@@ -1,12 +1,12 @@
 name: Azure Static Web Apps Webpage CI/CD
 
 on:
-  # workflow_call:
-  workflow_dispatch:
-  workflow_run:
-    workflows: [Azure Functions API CI/CD]
-    types:
-      - completed
+  workflow_call:
+  # workflow_dispatch:
+  # workflow_run:
+  #   workflows: [Azure Functions API CI/CD]
+  #   types:
+  #     - completed
 
 env:
   RESOURCE_GROUP_NAME: 'resume-live-00'   # set this to the name of your resource group on Azure
