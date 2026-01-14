@@ -9,6 +9,7 @@ The final result of my approach to the [Cloud Resume Challenge](https://cloudres
 * Smoke testing with Cypress to check if webpage content loads and API is accesible
 * Deployment is written in Bicep
 * CI/CD is done in GitHub Actions
+* Azure Functions API CI/CD gets Failure, but the Az resources are setup anyway
 
 ## Reflections on the project
 1. Azure as a (free) cloud provider. AWS and GCP can also handle this project without any costs. [Extended opinion](#azure) 
@@ -26,3 +27,8 @@ Azure Monitor is not free.
 [Build Artifacts](https://github.com/actions/runner/issues/2205) - This one is affecting cypress tests if we would like to speed up multiple ones on a same build\
 [Extra](https://github.com/Felixoid/actions-experiments/issues/9) - Some (not) so funny reported issues I found when troubleshooting\
 [My favorite](https://github.com/actions/runner/issues/3266)\
+[Problem that arrised from flexConsumption plan](https://github.com/Azure/functions-action/issues/273) and:\
+(https://imgur.com/a/T4KiMXd)\
+(https://imgur.com/a/Hy1so34)\
+(https://imgur.com/y4iK8Ui)\
+(https://imgur.com/Tck5xl6)
