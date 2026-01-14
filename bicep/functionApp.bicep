@@ -20,6 +20,7 @@ param instanceMemoryMB int = 2048
 param functionName string = 'func-http-trigger-resume'
 param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
+param privateDnsName string = 'jwajda.com'
 param staticWebAppHostname string
 
 // Generates a unique container name for deployments.
@@ -142,7 +143,7 @@ resource functionAppSiteConfig 'Microsoft.Web/sites/config@2022-03-01' = {
   name: 'web'
   properties: {
     cors: {
-      allowedOrigins: ['https://jwajda.com','https://${staticWebAppHostname}']
+      allowedOrigins: ['https://${privateDnsName}','https://${staticWebAppHostname}']
       supportCredentials: false
     }
   }

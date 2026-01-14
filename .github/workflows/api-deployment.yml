@@ -42,34 +42,21 @@ jobs:
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
 
-    # - name: 'Deploy Function App'
-    #   uses: azure/webapps-deploy@v2
-    #   id: fa
-    #   with:
-    #     app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-    #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-    #     #publish-profile: ${{ secrets.AZURE_API_PUBLISH_PROFILE }}
-
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1.5.3
+    - name: 'Deploy Function App'
+      uses: azure/webapps-deploy@v2
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        scm-do-build-during-deployment: true
-        enable-oryx-build: true
 
-    # not a perfect solution to always chose latest rg, but this is single deployment with hardcoded rg name
-    # - name: 'Get the last resource group name' 
-    #   id: rg
-    #   run: |
-    #     rgname=$(az group list -o yaml | grep -o '\sresume.*' | tail -1)
-
-    #     echo "::set-output name=rgname::$rgname"
-
-    # - name: 'Deploy website content to Static Web Apps'
-    #   run: |
-    #     az staticwebapp deploy \
-    #     --source "${{ env.AZURE_STATIC_WEB_APP_PACKAGE_PATH }}" \
-    #     --name "${{ env.AZURE_STATIC_WEB_APP_NAME }}" \
-    #     --resource-group "${{ steps.rg.outputs.rgname }}"
+    # it should be workaround for unrealiable webapps-deploy action, but it throws error for missing
+    # appSettings with string: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING' which can not be used when
+    # deploying with flexCosumption plan
+    # - name: 'Run Azure Functions Action'
+    #   uses: Azure/functions-action@v1.5.3
+    #   id: fa
+    #   with:
+    #     app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+    #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+    #     scm-do-build-during-deployment: true
+    #     enable-oryx-build: true
