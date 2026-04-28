@@ -138,3 +138,6 @@ __azurite_db*__.json
 # cypress test
 node_modules/
 */cypress/screenshots/
+
+# opencode
+.opencode/

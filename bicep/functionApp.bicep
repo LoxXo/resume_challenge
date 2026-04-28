@@ -21,7 +21,7 @@ param functionName string = 'func-http-trigger-resume'
 param functionLocation string = resourceGroup().location
 param storageAccountType string = 'Standard_LRS'
 param privateDnsName string = 'jwajda.com'
-param staticWebAppHostname string
+param staticWebAppHostname string = 'web-resume-00'
 
 // Generates a unique container name for deployments.
 var deploymentStorageContainerName = 'app-package-${take(functionName, 32)}-${(uniqueString(resourceGroup().id))}'
@@ -118,7 +118,8 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       deployment: {
         storage: {
           type: 'blobContainer'
-          value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+          value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
+          // value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
           authentication: {
             type: 'StorageAccountConnectionString'
             storageAccountConnectionStringName: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
