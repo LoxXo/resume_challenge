@@ -44,11 +44,12 @@ jobs:
 
     - name: 'Deploy Function App'
       run: |
-        az functionapp deployment publish \
+        cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        zip -r ../functionapp.zip . -x '.venv/*' -x '__pycache__/*' -x '.python_packages/.venv/*'
+        az functionapp deployment source config-zip \
           --name ${{ env.AZURE_FUNCTIONAPP_NAME }} \
           --resource-group resume-live-00 \
-          --src-path ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }} \
-          --deploy-to-in-place
+          --src-path ../functionapp.zip
 
     # it should be workaround for unrealiable webapps-deploy action, but it throws error for missing
     # appSettings with string: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING' which can not be used when
