@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - '.github'
+      - '.github/workflows/**'
       - 'api/**'
       - 'bicep/**'
       - 'tests/**'
