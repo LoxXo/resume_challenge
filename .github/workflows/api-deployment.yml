@@ -49,7 +49,7 @@ jobs:
         az functionapp deployment source config-zip \
           --name ${{ env.AZURE_FUNCTIONAPP_NAME }} \
           --resource-group resume-live-00 \
-          --src-path ../functionapp.zip
+          --src ../functionapp.zip
 
     # it should be workaround for unrealiable webapps-deploy action, but it throws error for missing
     # appSettings with string: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING' which can not be used when
