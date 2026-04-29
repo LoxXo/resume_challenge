@@ -115,17 +115,17 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       minTlsVersion: '1.2'
     }
         functionAppConfig: {
-      deployment: {
-        storage: {
-          type: 'blobContainer'
-          value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
-          // value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
-          authentication: {
-            type: 'StorageAccountConnectionString'
-            storageAccountConnectionStringName: 'AzureWebJobsStorage'
-          }
-        }
-      }
+      // deployment: {
+      //   storage: {
+      //     type: 'blobContainer'
+      //     value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
+      //     // value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+      //     authentication: {
+      //       type: 'StorageAccountConnectionString'
+      //       storageAccountConnectionStringName: 'AzureWebJobsStorage'
+      //     }
+      //   }
+      // }
       scaleAndConcurrency: {
         maximumInstanceCount: maximumInstanceCount
         instanceMemoryMB: instanceMemoryMB
