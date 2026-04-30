@@ -34,17 +34,39 @@ resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2024-12-01-previ
   name: cdbAccountName
 }
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
-  name: storageAccountName
-  location: functionLocation
-  sku: {
-    name: storageAccountType
-  }
-  kind: 'StorageV2'
-  properties: {
-    supportsHttpsTrafficOnly: true
-    defaultToOAuthAuthentication: true
-    minimumTlsVersion: 'TLS1_2'
+// resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+//   name: storageAccountName
+//   location: functionLocation
+//   sku: {
+//     name: storageAccountType
+//   }
+//   kind: 'StorageV2'
+//   properties: {
+//     supportsHttpsTrafficOnly: true
+//     defaultToOAuthAuthentication: true
+//     minimumTlsVersion: 'TLS1_2'
+//   }
+// }
+
+module storageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
+  name: 'storage'
+  params: {
+    name: storageAccountName
+    allowBlobPublicAccess: false
+    // allowSharedKeyAccess: false // Disable local authentication methods as per policy
+    dnsEndpointType: 'Standard'
+    publicNetworkAccess: 'Enabled'
+    networkAcls: {
+      defaultAction: 'Allow'
+      bypass: 'AzureServices'
+    }
+    blobServices: {
+      containers: [{name: deploymentStorageContainerName}]
+    }
+    tableServices:{}
+    queueServices: {}
+    minimumTlsVersion: 'TLS1_2'  // Enforcing TLS 1.2 for better security
+    location: functionLocation
   }
 }
 
@@ -62,38 +84,121 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   }
 }
 
-@description('appSettings are Environment Variables')
-resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
-  name: functionName
-  location: functionLocation
-  kind: 'functionapp,linux'
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    serverFarmId: hostingPlan.id
+// @description('appSettings are Environment Variables')
+// resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
+//   name: functionName
+//   location: functionLocation
+//   kind: 'functionapp,linux'
+//   identity: {
+//     type: 'SystemAssigned'
+//   }
+//   properties: {
+//     serverFarmId: hostingPlan.id
+//     siteConfig: {
+//       appSettings: [
+//         {
+//           name: 'AzureWebJobsStorage'
+//           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+//         }
+//         // {
+//         //   name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+//         //   value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+//         // }
+//         // {
+//         //   name: 'WEBSITE_CONTENTSHARE'
+//         //   value: toLower(functionAppName)
+//         // }
+//         {
+//           name: 'FUNCTIONS_EXTENSION_VERSION'
+//           value: '~4'
+//         }
+//         // {
+//         //   name: 'FUNCTIONS_WORKER_RUNTIME'
+//         //   value: 'python'
+//         // }
+//         {
+//           name: 'CosmosDbConnectionSetting'
+//           value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
+//         }
+//         {
+//           name: 'COSMOS_CONTAINER'
+//           value: 'Container1'
+//         }
+//         {
+//           name: 'COSMOS_DATABASE'
+//           value: 'ResumeLive'
+//         }
+//         {
+//           name: 'COSMOS_CONTAINER_COUNTER'
+//           value: 'visitors'
+//         }
+//       ]
+//       ftpsState: 'FtpsOnly'
+//       minTlsVersion: '1.2'
+//     }
+//     functionAppConfig: {
+//       deployment: {
+//         storage: {
+//           type: 'blobContainer'
+//           value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
+//           // value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+//           authentication: {
+//             type: 'StorageAccountConnectionString'
+//             storageAccountConnectionStringName: 'AzureWebJobsStorage'
+//           }
+//         }
+//       }
+//       scaleAndConcurrency: {
+//         maximumInstanceCount: maximumInstanceCount
+//         instanceMemoryMB: instanceMemoryMB
+//       }
+//       runtime: { 
+//         name: functionAppRuntime
+//         version: functionAppRuntimeVersion
+//       }
+//     }
+//     httpsOnly: true
+//   }
+// }
+
+@description('Azure Functions Flex Consumption')
+module function 'br/public:avm/res/web/site:0.16.0' = {
+  name: 'functionapp'
+  params: {
+    kind: 'functionapp,linux'
+    name: functionName
+    location: functionLocation
+    serverFarmResourceId: hostingPlan.id
+    httpsOnly: true
+    managedIdentities: {
+      systemAssigned: true
+    }
+    functionAppConfig: {
+      deployment: {
+        storage: {
+          type: 'blobContainer'
+          value: '${storageAccount.outputs.primaryBlobEndpoint}${deploymentStorageContainerName}'
+          authentication: {
+            type: 'SystemAssignedIdentity'
+          }
+        }
+      }
+      runtime: { 
+        name: 'functionAppRuntime'
+        version: functionAppRuntimeVersion
+      }
+    }
     siteConfig: {
-      appSettings: [
+      // alwaysOn: false
+            appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.outputs.primaryAccessKey}'
         }
-        // {
-        //   name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-        //   value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-        // }
-        // {
-        //   name: 'WEBSITE_CONTENTSHARE'
-        //   value: toLower(functionAppName)
-        // }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
-        // {
-        //   name: 'FUNCTIONS_WORKER_RUNTIME'
-        //   value: 'python'
-        // }
         {
           name: 'CosmosDbConnectionSetting'
           value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
@@ -111,33 +216,24 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
           value: 'visitors'
         }
       ]
-      ftpsState: 'FtpsOnly'
-      minTlsVersion: '1.2'
     }
-    functionAppConfig: {
-      deployment: {
-        storage: {
-          type: 'blobContainer'
-          value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
-          // value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
-          authentication: {
-            type: 'StorageAccountConnectionString'
-            storageAccountConnectionStringName: 'AzureWebJobsStorage'
-          }
-        }
-      }
-      scaleAndConcurrency: {
-        maximumInstanceCount: maximumInstanceCount
-        instanceMemoryMB: instanceMemoryMB
-      }
-      runtime: { 
-        name: functionAppRuntime
-        version: functionAppRuntimeVersion
-      }
+    configs: [{
+      name: 'appsettings'
+      properties:{
+        // Only include required credential settings unconditionally
+        AzureWebJobsStorage__credential: 'managedidentity'
+        AzureWebJobsStorage__blobServiceUri: 'https://${storageAccount.outputs.name}.blob.${environment().suffixes.storage}'
+        AzureWebJobsStorage__queueServiceUri: 'https://${storageAccount.outputs.name}.queue.${environment().suffixes.storage}'
+        AzureWebJobsStorage__tableServiceUri: 'https://${storageAccount.outputs.name}.table.${environment().suffixes.storage}'
     }
-    httpsOnly: true
+    }]
   }
 }
+
+resource functionApp 'Microsoft.Web/sites@2024-04-01' existing = {
+name: functionName
+}
+
 @description('Seems like CORS needs to be added after creating FunctionApp')
 resource functionAppSiteConfig 'Microsoft.Web/sites/config@2022-03-01' = {
   parent: functionApp
