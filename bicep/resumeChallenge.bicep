@@ -2,11 +2,6 @@ targetScope='subscription'
 
 param resourceGroupName string
 param resourceGroupLocation string
-/*param staticWebAppLocation string
-param cdbAccountLocation string
-param cdbAccountName string
-param functionName string
-param functionLocation string*/
 
 resource newRG 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   name: resourceGroupName

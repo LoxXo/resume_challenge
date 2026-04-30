@@ -1,7 +1,6 @@
 name: Cypress E2E Tests for API and Webpage
 
 on:
-  # workflow_call:
   workflow_dispatch:
   workflow_run:
     workflows: [Azure Static Web Apps Webpage CI/CD]
@@ -9,7 +8,6 @@ on:
       - completed
 
 env:
-  # this version is for LIVE on origin/main branch
   RESOURCE_GROUP_NAME: 'resume-live-00'   # set this to the name of your resource group on Azure
   STATIC_WEB_APP_NAME: 'web-resume-00'   # set this to the name of your static web app on Azure
 
@@ -54,8 +52,3 @@ jobs:
           working-directory: ./tests
           spec: 'cypress/e2e/resume-page-live.cy.js'
           browser: chrome
-              
-              # - name: Sleep for 2 minutes           
-              #   uses: jakejarvis/wait-action@v0.1.1
-              #   with:
-              #     time: '2m'

@@ -1,6 +1,5 @@
 targetScope = 'resourceGroup'
 
-//param staticWebAppName string = 'web-resume-${uniqueString(resourceGroup().id)}'
 param staticWebAppName string = 'web-resume-00'
 @allowed(
   ['westus2'

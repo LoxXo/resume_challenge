@@ -1,5 +1,24 @@
 # Azure Cloud Resume Challenge
 
+## Deployment
+### Manual steps needed
+1. [Create Application Object](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app)
+2. [Create GH Actions Secret](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-secret):
+
+AZURE_CREDENTIALS 
+
+3. Create role in subscription. It is standard Contributor role but with additional privilege:
+* Microsoft.Authorization/roleAssignments/write
+* Microsoft.Authorization/roleAssignments/delete
+```az role definition create --role-definition az_roles/contributor_resume.json```
+
+4. Create Service Principal with role newly created role:
+```az ad sp create-for-rbac --name {applicationId} --role "Contributor Role Assigner" --scopes subscriptions/{subscriptionId}```
+
+5. Deploy code starting 'Deploy Bicep file' workflow. 
+
+6. [Setup external Custom domain in Static Web App](https://learn.microsoft.com/en-us/azure/static-web-apps/custom-domain-external)
+
 ## Too long; didn't read
 The final result of my approach to the [Cloud Resume Challenge](https://cloudresumechallenge.dev/) is this very repository and my website: https://jwajda.com.
 * HTML and CSS for website hosted in Azure Static Web Apps
@@ -19,10 +38,10 @@ The final result of my approach to the [Cloud Resume Challenge](https://cloudres
 ### Azure
 Big share of corporate world in Europe. Nice support for the biggest partners. EntraID/AD that lets you control permissions in easy manner. User X always stays as user X, resource groups, easy to setup access to single resources.\
 Decent UI, but good part of option's names doesn't translate to the ones in Bicep or AZ CLI. Overall clicking UI works well for Azure, but feels like underneath it lies mass of sewn together independed projects.\
-C#, .Net is a Microsoft's baby and it shows. Function App documentation for Python can be out of date, basically there is no community support for it and it could be of a help as some stuff does not work as intendeed. Very good integration with VSCode.\
+C#, .Net is a Microsoft's baby and it shows. Function App documentation for Python can be out of date, community support is lacking and some stuff happens to not work as intendeed. Very good integration with VSCode.\
 Azure Monitor is not free.
 
-### Github Actions
+### Github Actions Rant
 help ***blinks 3 times***
 
 [Jobs skips](https://github.com/actions/runner/issues/2205) - [More on it](https://github.com/orgs/community/discussions/45058)\

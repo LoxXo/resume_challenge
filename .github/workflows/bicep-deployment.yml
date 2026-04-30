@@ -1,6 +1,7 @@
 name: Deploy Bicep file
 on:
-  #workflow_call:
+  # reusable workflows are unrealiable - workflow_call is skipping jobs
+  #workflow_call: 
   workflow_dispatch:
   push:
     branches:
@@ -14,11 +15,10 @@ on:
 
   # Mind that resource group, static web app, and function app names are static in this deployment
   # and they are hardcoded in the workflow files to shorter the code because
-  # reusable workflows are unrealiable - workflow_call is skipping jobs in this case and the bug is already 1 year old
   # Adding values to repository secrets can be a cleaner version of static values
   ###
   # Resource group location can be selected, but in case of StaticWebApp is hard set in staticWebApp.bicep as pool of options is limited
-  # Problem with asset location can also happen when creating another Azure resources and that will fail the deployment
+  # Problems with asset location can also happen when creating another Azure resources and that will fail the deployment
 env:
   RESOURCE_GROUP_NAME: 'resume-live-00'   # set this to the name of your resource group on Azure
   RESOURCE_GROUP_LOCATION: 'northeurope'   # set this to the location of your resource group on Azure
