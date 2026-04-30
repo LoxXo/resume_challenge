@@ -40,7 +40,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   sku: {
     name: storageAccountType
   }
-  kind: 'Storage'
+  kind: 'StorageV2'
   properties: {
     supportsHttpsTrafficOnly: true
     defaultToOAuthAuthentication: true
