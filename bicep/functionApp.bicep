@@ -34,22 +34,8 @@ resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2024-12-01-previ
   name: cdbAccountName
 }
 
-// resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
-//   name: storageAccountName
-//   location: functionLocation
-//   sku: {
-//     name: storageAccountType
-//   }
-//   kind: 'StorageV2'
-//   properties: {
-//     supportsHttpsTrafficOnly: true
-//     defaultToOAuthAuthentication: true
-//     minimumTlsVersion: 'TLS1_2'
-//   }
-// }
-
 module storageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
-  name: storageAccountName
+  name: 'storageaccount'
   params: {
     name: storageAccountName
     allowBlobPublicAccess: false
@@ -72,7 +58,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
 
 // Create an App Service Plan to group applications under the same payment plan and SKU
 module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
-   name: 'appserviceplan'
+  name: 'appserviceplan'
   params: {
     name: functionName
     sku: {
@@ -84,18 +70,109 @@ module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
   }
 }
 
+@description('Azure Functions Flex Consumption')
+module functionApp 'br/public:avm/res/web/site:0.16.0' = {
+  name: 'functionapp'
+  params: {
+    kind: 'functionapp,linux'
+    name: functionName
+    location: functionLocation
+    serverFarmResourceId: appServicePlan.outputs.resourceId
+    httpsOnly: true
+    managedIdentities: {
+      systemAssigned: true
+    }
+    functionAppConfig: {
+      deployment: {
+        storage: {
+          type: 'blobContainer'
+          value: '${storageAccount.outputs.primaryBlobEndpoint}${deploymentStorageContainerName}'
+          authentication: {
+            type: 'SystemAssignedIdentity'
+          }
+        }
+      }
+      scaleAndConcurrency: {
+        maximumInstanceCount: maximumInstanceCount
+        instanceMemoryMB: instanceMemoryMB
+      }
+      runtime: { 
+        name: functionAppRuntime
+        version: functionAppRuntimeVersion
+      }
+    }
+    siteConfig: {
+      // alwaysOn: false
+      cors: {
+        allowedOrigins: ['https://${privateDnsName}','https://${staticWebAppHostname}']
+        supportCredentials: false
+      }
+      appSettings: [
+        {
+          name: 'AzureWebJobsStorage'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.outputs.primaryAccessKey}'
+        }
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
+        {
+          name: 'CosmosDbConnectionSetting'
+          value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
+        }
+        {
+          name: 'COSMOS_CONTAINER'
+          value: 'Container1'
+        }
+        {
+          name: 'COSMOS_DATABASE'
+          value: 'ResumeLive'
+        }
+        {
+          name: 'COSMOS_CONTAINER_COUNTER'
+          value: 'visitors'
+        }
+      ]
+    }
+    configs: [{
+      name: 'appsettings'
+      properties:{
+        // Only include required credential settings unconditionally
+        AzureWebJobsStorage__credential: 'managedidentity'
+        AzureWebJobsStorage__blobServiceUri: 'https://${storageAccount.outputs.name}.blob.${environment().suffixes.storage}'
+        AzureWebJobsStorage__queueServiceUri: 'https://${storageAccount.outputs.name}.queue.${environment().suffixes.storage}'
+        AzureWebJobsStorage__tableServiceUri: 'https://${storageAccount.outputs.name}.table.${environment().suffixes.storage}'
+      }
+    }]
+  }
+}
+
+// resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+//   name: storageAccountName
+//   location: functionLocation
+//   sku: {
+//     name: storageAccountType
+//   }
+//   kind: 'StorageV2'
+//   properties: {
+//     supportsHttpsTrafficOnly: true
+//     defaultToOAuthAuthentication: true
+//     minimumTlsVersion: 'TLS1_2'
+//   }
+// }
+
 // @description('linux is required to run python, functionapp is consumption plan, reserved: true is needed to select Linux')
 // resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
 //   name: functionName
 //   location: functionLocation
 //   kind: 'functionapp,linux'
 //   sku: {
-//     tier: 'FlexConsumption'
-//     name: 'FC1'
-//   }
-//   properties: {
-//     reserved: true
-//   }
+  //     tier: 'FlexConsumption'
+  //     name: 'FC1'
+  //   }
+  //   properties: {
+    //     reserved: true
+    //   }
 // }
 
 // @description('appSettings are Environment Variables')
@@ -174,83 +251,6 @@ module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
 //     httpsOnly: true
 //   }
 // }
-
-@description('Azure Functions Flex Consumption')
-module functionApp 'br/public:avm/res/web/site:0.16.0' = {
-  name: 'functionapp'
-  params: {
-    kind: 'functionapp,linux'
-    name: functionName
-    location: functionLocation
-    serverFarmResourceId: appServicePlan.outputs.resourceId
-    httpsOnly: true
-    managedIdentities: {
-      systemAssigned: true
-    }
-    functionAppConfig: {
-      deployment: {
-        storage: {
-          type: 'blobContainer'
-          value: '${storageAccount.outputs.primaryBlobEndpoint}${deploymentStorageContainerName}'
-          authentication: {
-            type: 'SystemAssignedIdentity'
-          }
-        }
-      }
-      scaleAndConcurrency: {
-        maximumInstanceCount: maximumInstanceCount
-        instanceMemoryMB: instanceMemoryMB
-      }
-      runtime: { 
-        name: functionAppRuntime
-        version: functionAppRuntimeVersion
-      }
-    }
-    siteConfig: {
-      // alwaysOn: false
-        cors: {
-          allowedOrigins: ['https://${privateDnsName}','https://${staticWebAppHostname}']
-          supportCredentials: false
-        }
-        appSettings: [
-        {
-          name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.outputs.primaryAccessKey}'
-        }
-        {
-          name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: '~4'
-        }
-        {
-          name: 'CosmosDbConnectionSetting'
-          value: databaseAccount.listConnectionStrings().connectionStrings[0].connectionString
-        }
-        {
-          name: 'COSMOS_CONTAINER'
-          value: 'Container1'
-        }
-        {
-          name: 'COSMOS_DATABASE'
-          value: 'ResumeLive'
-        }
-        {
-          name: 'COSMOS_CONTAINER_COUNTER'
-          value: 'visitors'
-        }
-      ]
-    }
-    configs: [{
-      name: 'appsettings'
-      properties:{
-        // Only include required credential settings unconditionally
-        AzureWebJobsStorage__credential: 'managedidentity'
-        AzureWebJobsStorage__blobServiceUri: 'https://${storageAccount.outputs.name}.blob.${environment().suffixes.storage}'
-        AzureWebJobsStorage__queueServiceUri: 'https://${storageAccount.outputs.name}.queue.${environment().suffixes.storage}'
-        AzureWebJobsStorage__tableServiceUri: 'https://${storageAccount.outputs.name}.table.${environment().suffixes.storage}'
-    }
-    }]
-  }
-}
 
 // @description('Seems like CORS needs to be added after creating FunctionApp')
 // resource functionAppSiteConfig 'Microsoft.Web/sites/config@2022-03-01' = {
