@@ -52,7 +52,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
 resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
   name: functionName
   location: functionLocation
-  kind: 'functionapp'
+  kind: 'functionapp,linux'
   sku: {
     tier: 'FlexConsumption'
     name: 'FC1'
@@ -114,18 +114,18 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
       ftpsState: 'FtpsOnly'
       minTlsVersion: '1.2'
     }
-        functionAppConfig: {
-      // deployment: {
-      //   storage: {
-      //     type: 'blobContainer'
-      //     value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
-      //     // value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
-      //     authentication: {
-      //       type: 'StorageAccountConnectionString'
-      //       storageAccountConnectionStringName: 'AzureWebJobsStorage'
-      //     }
-      //   }
-      // }
+    functionAppConfig: {
+      deployment: {
+        storage: {
+          type: 'blobContainer'
+          value: 'https://${storageAccountName}.blob.${environment().suffixes.storage}/${deploymentStorageContainerName}'
+          // value: '${storageAccount.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+          authentication: {
+            type: 'StorageAccountConnectionString'
+            storageAccountConnectionStringName: 'AzureWebJobsStorage'
+          }
+        }
+      }
       scaleAndConcurrency: {
         maximumInstanceCount: maximumInstanceCount
         instanceMemoryMB: instanceMemoryMB
