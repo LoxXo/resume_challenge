@@ -147,6 +147,21 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
   }
 }
 
+resource storageAccountEx 'Microsoft.Storage/storageAccounts@2023-05-01' existing = {
+  name: storageAccountName
+} 
+
+// Grant function app identity access to storage account blob container
+resource functionAppStorageRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(functionName, storageAccountEx.id, 'StorageBlobData')
+  scope: storageAccountEx
+  properties: {
+    roleDefinitionId: '/subscriptions/${resourceGroup().id}/providers/Microsoft.Authorization/roleDefinitions/976134e5-5b1b-4a42-a159-14c5c9c0a839'
+    principalId: functionApp.outputs.?systemAssignedMIPrincipalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
 // resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
 //   name: storageAccountName
 //   location: functionLocation
@@ -263,3 +278,5 @@ module functionApp 'br/public:avm/res/web/site:0.16.0' = {
 //     }
 //   }
 // }
+
+
