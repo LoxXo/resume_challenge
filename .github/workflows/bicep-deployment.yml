@@ -41,17 +41,6 @@ jobs:
         inlineScript: | 
           az account show
 
-    - name: Grant temporary role assignment permission for service principal
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          SERVICE_PRINCIPAL=$(az ad sp list --query "[0].id" -o tsv)
-          SUBSCRIPTION_ID=$(az account show --query "id" -o tsv)
-          az role assignment create \
-            --assignee $SERVICE_PRINCIPAL \
-            --role "User Access Administrator" \
-            --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$${{env.RESOURCE_GROUP_LOCATION}}" \
-
     - name: Deploy Bicep file
       uses: azure/cli@v1
       with:
@@ -61,18 +50,3 @@ jobs:
             --template-file bicep/resumeChallenge.bicep \
             -p resourceGroupName=${{env.RESOURCE_GROUP_NAME}} resourceGroupLocation=${{env.RESOURCE_GROUP_LOCATION}} \
             -l northeurope
-
-    - name: Remove temporary role assignment
-      if: always()
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          SERVICE_PRINCIPAL=$(az ad sp list --query "[0].id" -o tsv)
-          SUBSCRIPTION_ID=$(az account show --query "id" -o tsv)
-          az role assignment delete \
-            --assigne "$SERVICE_PRINCIPAL" \
-            --role "User Access Administrator" \
-            --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$${{env.RESOURCE_GROUP_LOCATION}}" \
-            --yes \
-            --no-wait \
-            --only-show-errors 2>/dev/null
