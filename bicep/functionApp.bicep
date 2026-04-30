@@ -1,4 +1,4 @@
-  targetScope = 'resourceGroup'
+targetScope = 'resourceGroup'
 
 @description('Language runtime used by the function app.')
 @allowed(['dotnet-isolated','python','java', 'node', 'powerShell'])
@@ -49,7 +49,7 @@ resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2024-12-01-previ
 // }
 
 module storageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
-  name: 'storage'
+  name: storageAccountName
   params: {
     name: storageAccountName
     allowBlobPublicAccess: false
@@ -70,19 +70,33 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
   }
 }
 
-@description('linux is required to run python, functionapp is consumption plan, reserved: true is needed to select Linux')
-resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
-  name: functionName
-  location: functionLocation
-  kind: 'functionapp,linux'
-  sku: {
-    tier: 'FlexConsumption'
-    name: 'FC1'
-  }
-  properties: {
+// Create an App Service Plan to group applications under the same payment plan and SKU
+module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.1' = {
+   name: 'appserviceplan'
+  params: {
+    name: functionName
+    sku: {
+      name: 'FC1'
+      tier: 'FlexConsumption'
+    }
     reserved: true
+    location: functionLocation
   }
 }
+
+// @description('linux is required to run python, functionapp is consumption plan, reserved: true is needed to select Linux')
+// resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
+//   name: functionName
+//   location: functionLocation
+//   kind: 'functionapp,linux'
+//   sku: {
+//     tier: 'FlexConsumption'
+//     name: 'FC1'
+//   }
+//   properties: {
+//     reserved: true
+//   }
+// }
 
 // @description('appSettings are Environment Variables')
 // resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
@@ -162,13 +176,13 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
 // }
 
 @description('Azure Functions Flex Consumption')
-module function 'br/public:avm/res/web/site:0.16.0' = {
+module functionApp 'br/public:avm/res/web/site:0.16.0' = {
   name: 'functionapp'
   params: {
     kind: 'functionapp,linux'
     name: functionName
     location: functionLocation
-    serverFarmResourceId: hostingPlan.id
+    serverFarmResourceId: appServicePlan.outputs.resourceId
     httpsOnly: true
     managedIdentities: {
       systemAssigned: true
@@ -183,8 +197,12 @@ module function 'br/public:avm/res/web/site:0.16.0' = {
           }
         }
       }
+      scaleAndConcurrency: {
+        maximumInstanceCount: maximumInstanceCount
+        instanceMemoryMB: instanceMemoryMB
+      }
       runtime: { 
-        name: 'functionAppRuntime'
+        name: functionAppRuntime
         version: functionAppRuntimeVersion
       }
     }
