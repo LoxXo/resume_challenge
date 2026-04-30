@@ -190,7 +190,11 @@ module function 'br/public:avm/res/web/site:0.16.0' = {
     }
     siteConfig: {
       // alwaysOn: false
-            appSettings: [
+        cors: {
+          allowedOrigins: ['https://${privateDnsName}','https://${staticWebAppHostname}']
+          supportCredentials: false
+        }
+        appSettings: [
         {
           name: 'AzureWebJobsStorage'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.outputs.primaryAccessKey}'
@@ -230,18 +234,14 @@ module function 'br/public:avm/res/web/site:0.16.0' = {
   }
 }
 
-resource functionApp 'Microsoft.Web/sites@2024-04-01' existing = {
-name: functionName
-}
-
-@description('Seems like CORS needs to be added after creating FunctionApp')
-resource functionAppSiteConfig 'Microsoft.Web/sites/config@2022-03-01' = {
-  parent: functionApp
-  name: 'web'
-  properties: {
-    cors: {
-      allowedOrigins: ['https://${privateDnsName}','https://${staticWebAppHostname}']
-      supportCredentials: false
-    }
-  }
-}
+// @description('Seems like CORS needs to be added after creating FunctionApp')
+// resource functionAppSiteConfig 'Microsoft.Web/sites/config@2022-03-01' = {
+//   parent: function
+//   name: 'web'
+//   properties: {
+//     cors: {
+//       allowedOrigins: ['https://${privateDnsName}','https://${staticWebAppHostname}']
+//       supportCredentials: false
+//     }
+//   }
+// }
