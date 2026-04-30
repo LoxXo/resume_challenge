@@ -25,7 +25,7 @@ module swa 'staticWebApp.bicep' = {
 
 module fapp 'functionApp.bicep' = {
   scope: newRG
-  name: 'functionApp'
+  name: 'functionApp-v2'
   params: {
     staticWebAppHostname: swa.outputs.endpoint
   }
