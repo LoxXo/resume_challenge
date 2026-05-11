@@ -1,0 +1,44 @@
+{
+        "Name": "Contributor Role Assigner",
+        "IsCustom": true,
+        "Description": "Grants full access to manage all resources and allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries.",
+        "AssignableScopes": [
+            "/subscriptions/{subscriptionId}"
+        ],
+        "Actions": [
+            "*"
+        ],
+        "NotActions": [
+            "Microsoft.Authorization/classicAdministrators/write",
+            "Microsoft.Authorization/denyAssignments/write",
+            "Microsoft.Authorization/diagnosticSettings/write",
+            "Microsoft.Authorization/locks/write",
+            "Microsoft.Authorization/policyAssignments/privateLinkAssociations/write",
+            "Microsoft.Authorization/policyAssignments/resourceManagementPrivateLinks/write",
+            "Microsoft.Authorization/policyAssignments/resourceManagementPrivateLinks/privateEndpointConnectionProxies/write",
+            "Microsoft.Authorization/policyAssignments/resourceManagementPrivateLinks/privateEndpointConnections/write",
+            "Microsoft.Authorization/policyDefinitions/write",
+            "Microsoft.Authorization/policyDefinitions/versions/write",
+            "Microsoft.Authorization/policyEnrollments/write",
+            "Microsoft.Authorization/policyExemptions/write",
+            "Microsoft.Authorization/policySetDefinitions/write",
+            "Microsoft.Authorization/policySetDefinitions/versions/write",
+            "Microsoft.Authorization/roleAssignments/write",
+            "Microsoft.Authorization/roleAssignmentScheduleRequests/write",
+            "Microsoft.Authorization/roleEligibilityScheduleRequests/write",
+            "Microsoft.Authorization/roleEligibilityScheduleRequests/whenApprovalRequired/write",
+            "Microsoft.Authorization/roleManagementPolicies/write",
+            "Microsoft.Authorization/roleDefinitions/write",
+            "Microsoft.Authorization/elevateAccess/Action",
+            "Microsoft.Blueprint/blueprintAssignments/write",
+            "Microsoft.Blueprint/blueprintAssignments/delete",
+            "Microsoft.Compute/galleries/share/action",
+            "Microsoft.Purview/consents/write",
+            "Microsoft.Purview/consents/delete",
+            "Microsoft.Resources/deploymentStacks/manageDenySetting/action",
+            "Microsoft.Subscription/cancel/action",
+            "Microsoft.Subscription/enable/action"
+        ],
+        "DataActions": [],
+        "NotDataActions": []
+}
