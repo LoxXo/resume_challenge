@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "cypress": "^15.14.2"
+    "cypress": "^15.21.1"
   },
   "scripts": {
     "e2e:chrome": "cypress run --browser chrome --env URL='${{ env.URL }}"
